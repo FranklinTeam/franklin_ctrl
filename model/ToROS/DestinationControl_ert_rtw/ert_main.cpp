@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'DestinationControl'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.10
 // Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Thu May  7 15:42:08 2020
+// C/C++ source code generated on : Wed May 13 21:28:14 2020
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
   DestinationControl_initialize();
 
   // Call RTOS Initialization function
-  myRTOSInit(0.2, 0);
+  myRTOSInit(1.0, 0);
 
   // Wait for stop semaphore
   sem_wait(&stopSem);

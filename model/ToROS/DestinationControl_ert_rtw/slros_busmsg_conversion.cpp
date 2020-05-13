@@ -41,6 +41,27 @@ void convertToBus(SL_Bus_DestinationControl_geometry_msgs_Pose* busPtr, geometry
 }
 
 
+// Conversions between SL_Bus_DestinationControl_geometry_msgs_Pose2D and geometry_msgs::Pose2D
+
+void convertFromBus(geometry_msgs::Pose2D* msgPtr, SL_Bus_DestinationControl_geometry_msgs_Pose2D const* busPtr)
+{
+  const std::string rosMessageType("geometry_msgs/Pose2D");
+
+  msgPtr->theta =  busPtr->Theta;
+  msgPtr->x =  busPtr->X;
+  msgPtr->y =  busPtr->Y;
+}
+
+void convertToBus(SL_Bus_DestinationControl_geometry_msgs_Pose2D* busPtr, geometry_msgs::Pose2D const* msgPtr)
+{
+  const std::string rosMessageType("geometry_msgs/Pose2D");
+
+  busPtr->Theta =  msgPtr->theta;
+  busPtr->X =  msgPtr->x;
+  busPtr->Y =  msgPtr->y;
+}
+
+
 // Conversions between SL_Bus_DestinationControl_geometry_msgs_PoseWithCovariance and geometry_msgs::PoseWithCovariance
 
 void convertFromBus(geometry_msgs::PoseWithCovariance* msgPtr, SL_Bus_DestinationControl_geometry_msgs_PoseWithCovariance const* busPtr)
@@ -181,6 +202,23 @@ void convertToBus(SL_Bus_DestinationControl_ros_time_Time* busPtr, ros::Time con
 
   busPtr->Sec =  msgPtr->sec;
   busPtr->Nsec =  msgPtr->nsec;
+}
+
+
+// Conversions between SL_Bus_DestinationControl_std_msgs_Bool and std_msgs::Bool
+
+void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_DestinationControl_std_msgs_Bool const* busPtr)
+{
+  const std::string rosMessageType("std_msgs/Bool");
+
+  msgPtr->data =  busPtr->Data;
+}
+
+void convertToBus(SL_Bus_DestinationControl_std_msgs_Bool* busPtr, std_msgs::Bool const* msgPtr)
+{
+  const std::string rosMessageType("std_msgs/Bool");
+
+  busPtr->Data =  msgPtr->data;
 }
 
 

@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'DestinationControl'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.10
 // Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Thu May  7 15:42:08 2020
+// C/C++ source code generated on : Wed May 13 21:28:14 2020
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -39,21 +39,27 @@
 
 // Block signals (default storage)
 typedef struct {
-  SL_Bus_DestinationControl_nav_msgs_Odometry In1;// '<S4>/In1'
   SL_Bus_DestinationControl_nav_msgs_Odometry b_varargout_2;
   SL_Bus_DestinationControl_geometry_msgs_Twist BusAssignment1;// '<Root>/Bus Assignment1' 
-  real_T waypoints_data[6];
+  real_T u[4];                         // '<S13>/MATLAB Function'
+  real_T waypoints_data[4];
+  SL_Bus_DestinationControl_geometry_msgs_Pose2D In1_o;// '<S12>/In1'
+  SL_Bus_DestinationControl_geometry_msgs_Pose2D b_varargout_2_m;
   real_T dv[3];
   real_T unusedU0[2];
   real_T lookaheadStartPt[2];
   real_T waypoints[2];
-  real_T waypoints_m[2];
   real_T waypoints_c[2];
+  real_T waypoints_k[2];
   real_T refPt[2];
-  int32_T f_data[3];
-  real_T v;
-  real_T w;
-  real_T targetDir;
+  int32_T f_data[2];
+  real_T DataTypeConversion2;          // '<S2>/Data Type Conversion2'
+  real_T DataTypeConversion;           // '<S2>/Data Type Conversion'
+  real_T DataTypeConversion1;          // '<S2>/Data Type Conversion1'
+  real_T posDiff_idx_0;
+  real_T posDiff_idx_1;
+  real_T b_z1_idx_0;
+  real_T b_z1_idx_1;
   real_T minDistance;
   real_T dist;
   real_T overshootDist;
@@ -62,26 +68,47 @@ typedef struct {
   real_T lookaheadEndPt_idx_1;
   real_T alpha;
   real_T v12;
-  real_T v12_k;
+  real_T v12_c;
+  SL_Bus_DestinationControl_std_msgs_Bool In1_l;// '<S11>/In1'
 } B_DestinationControl_T;
 
 // Block states (default storage) for system '<Root>'
 typedef struct {
   nav_slalgs_internal_PurePursu_T obj; // '<Root>/Pure Pursuit'
-  ros_slros_internal_block_Publ_T obj_d;// '<S2>/SinkBlock'
-  ros_slros_internal_block_Subs_T obj_n;// '<S3>/SourceBlock'
+  ros_slros_internal_block_Publ_T obj_d;// '<S4>/SinkBlock'
+  ros_slros_internal_block_Subs_T obj_c;// '<S7>/SourceBlock'
+  ros_slros_internal_block_Subs_T obj_h;// '<S6>/SourceBlock'
+  ros_slros_internal_block_Subs_T obj_n;// '<S5>/SourceBlock'
 } DW_DestinationControl_T;
 
 // Parameters (default storage)
 struct P_DestinationControl_T_ {
   SL_Bus_DestinationControl_nav_msgs_Odometry Out1_Y0;// Computed Parameter: Out1_Y0
-                                                         //  Referenced by: '<S4>/Out1'
+                                                         //  Referenced by: '<S10>/Out1'
 
   SL_Bus_DestinationControl_nav_msgs_Odometry Constant_Value;// Computed Parameter: Constant_Value
-                                                                //  Referenced by: '<S3>/Constant'
+                                                                //  Referenced by: '<S5>/Constant'
 
   SL_Bus_DestinationControl_geometry_msgs_Twist Constant_Value_d;// Computed Parameter: Constant_Value_d
                                                                     //  Referenced by: '<S1>/Constant'
+
+  SL_Bus_DestinationControl_geometry_msgs_Pose2D Out1_Y0_e;// Computed Parameter: Out1_Y0_e
+                                                              //  Referenced by: '<S12>/Out1'
+
+  SL_Bus_DestinationControl_geometry_msgs_Pose2D Constant_Value_c;// Computed Parameter: Constant_Value_c
+                                                                     //  Referenced by: '<S7>/Constant'
+
+  SL_Bus_DestinationControl_std_msgs_Bool Out1_Y0_ev;// Computed Parameter: Out1_Y0_ev
+                                                        //  Referenced by: '<S11>/Out1'
+
+  SL_Bus_DestinationControl_std_msgs_Bool Constant_Value_i;// Computed Parameter: Constant_Value_i
+                                                              //  Referenced by: '<S6>/Constant'
+
+  real_T Switch1_Threshold;            // Expression: 0
+                                          //  Referenced by: '<Root>/Switch1'
+
+  real_T Switch_Threshold;             // Expression: 0
+                                          //  Referenced by: '<Root>/Switch'
 
   real_T PurePursuit_DesiredLinearVeloci;// Expression: 0.1
                                             //  Referenced by: '<Root>/Pure Pursuit'
@@ -92,8 +119,29 @@ struct P_DestinationControl_T_ {
   real_T PurePursuit_LookaheadDistance;// Expression: 1.0
                                           //  Referenced by: '<Root>/Pure Pursuit'
 
-  real_T Waypoints_Value[6];           // Expression: [0,0; 1,1; 0,0]
-                                          //  Referenced by: '<Root>/Waypoints'
+  real_T X_Y0;                         // Computed Parameter: X_Y0
+                                          //  Referenced by: '<S2>/X'
+
+  real_T Y_Y0;                         // Computed Parameter: Y_Y0
+                                          //  Referenced by: '<S2>/Y'
+
+  real_T Theta_Y0;                     // Computed Parameter: Theta_Y0
+                                          //  Referenced by: '<S2>/Theta'
+
+  real_T waypoints_Y0;                 // Computed Parameter: waypoints_Y0
+                                          //  Referenced by: '<S8>/waypoints'
+
+  real_T Constant1_Value;              // Expression: 0
+                                          //  Referenced by: '<Root>/Constant1'
+
+  real_T Constant_Value_g;             // Expression: 0.1
+                                          //  Referenced by: '<Root>/Constant'
+
+  real_T Switch2_Threshold;            // Expression: 0
+                                          //  Referenced by: '<Root>/Switch2'
+
+  real_T Switch3_Threshold;            // Expression: 0
+                                          //  Referenced by: '<Root>/Switch3'
 
 };
 
@@ -179,9 +227,21 @@ extern "C" {
 //
 //  '<Root>' : 'DestinationControl'
 //  '<S1>'   : 'DestinationControl/Blank Message'
-//  '<S2>'   : 'DestinationControl/Publish'
-//  '<S3>'   : 'DestinationControl/Subscribe'
-//  '<S4>'   : 'DestinationControl/Subscribe/Enabled Subsystem'
+//  '<S2>'   : 'DestinationControl/Decode ROS msg'
+//  '<S3>'   : 'DestinationControl/MATLAB Function'
+//  '<S4>'   : 'DestinationControl/Publish'
+//  '<S5>'   : 'DestinationControl/Subscribe'
+//  '<S6>'   : 'DestinationControl/Subscribe1'
+//  '<S7>'   : 'DestinationControl/Subscribe3'
+//  '<S8>'   : 'DestinationControl/Subsystem'
+//  '<S9>'   : 'DestinationControl/Subsystem2'
+//  '<S10>'  : 'DestinationControl/Subscribe/Enabled Subsystem'
+//  '<S11>'  : 'DestinationControl/Subscribe1/Enabled Subsystem'
+//  '<S12>'  : 'DestinationControl/Subscribe3/Enabled Subsystem'
+//  '<S13>'  : 'DestinationControl/Subsystem/Create path with destination'
+//  '<S14>'  : 'DestinationControl/Subsystem/Create path with destination/MATLAB Function'
+//  '<S15>'  : 'DestinationControl/Subsystem2/Subsystem1'
+//  '<S16>'  : 'DestinationControl/Subsystem2/Subsystem1/MATLAB Function1'
 
 #endif                                 // RTW_HEADER_DestinationControl_h_
 

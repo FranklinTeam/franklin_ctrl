@@ -4,6 +4,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseWithCovariance.h>
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/Twist.h>
@@ -11,6 +12,7 @@
 #include <geometry_msgs/Vector3.h>
 #include <nav_msgs/Odometry.h>
 #include <ros/time.h>
+#include <std_msgs/Bool.h>
 #include <std_msgs/Header.h>
 #include "DestinationControl_types.h"
 #include "slros_msgconvert_utils.h"
@@ -21,6 +23,9 @@ void convertToBus(SL_Bus_DestinationControl_geometry_msgs_Point* busPtr, geometr
 
 void convertFromBus(geometry_msgs::Pose* msgPtr, SL_Bus_DestinationControl_geometry_msgs_Pose const* busPtr);
 void convertToBus(SL_Bus_DestinationControl_geometry_msgs_Pose* busPtr, geometry_msgs::Pose const* msgPtr);
+
+void convertFromBus(geometry_msgs::Pose2D* msgPtr, SL_Bus_DestinationControl_geometry_msgs_Pose2D const* busPtr);
+void convertToBus(SL_Bus_DestinationControl_geometry_msgs_Pose2D* busPtr, geometry_msgs::Pose2D const* msgPtr);
 
 void convertFromBus(geometry_msgs::PoseWithCovariance* msgPtr, SL_Bus_DestinationControl_geometry_msgs_PoseWithCovariance const* busPtr);
 void convertToBus(SL_Bus_DestinationControl_geometry_msgs_PoseWithCovariance* busPtr, geometry_msgs::PoseWithCovariance const* msgPtr);
@@ -42,6 +47,9 @@ void convertToBus(SL_Bus_DestinationControl_nav_msgs_Odometry* busPtr, nav_msgs:
 
 void convertFromBus(ros::Time* msgPtr, SL_Bus_DestinationControl_ros_time_Time const* busPtr);
 void convertToBus(SL_Bus_DestinationControl_ros_time_Time* busPtr, ros::Time const* msgPtr);
+
+void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_DestinationControl_std_msgs_Bool const* busPtr);
+void convertToBus(SL_Bus_DestinationControl_std_msgs_Bool* busPtr, std_msgs::Bool const* msgPtr);
 
 void convertFromBus(std_msgs::Header* msgPtr, SL_Bus_DestinationControl_std_msgs_Header const* busPtr);
 void convertToBus(SL_Bus_DestinationControl_std_msgs_Header* busPtr, std_msgs::Header const* msgPtr);

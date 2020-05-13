@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'DestinationControl'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.10
 // Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Thu May  7 15:42:08 2020
+// C/C++ source code generated on : Wed May 13 21:28:14 2020
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -175,6 +175,45 @@ typedef struct {
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_DestinationControl_std_msgs_Bool_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_DestinationControl_std_msgs_Bool_
+
+// MsgType=std_msgs/Bool
+typedef struct {
+  boolean_T Data;
+} SL_Bus_DestinationControl_std_msgs_Bool;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_DestinationControl_geometry_msgs_Pose2D_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_DestinationControl_geometry_msgs_Pose2D_
+
+// MsgType=geometry_msgs/Pose2D
+typedef struct {
+  real_T X;
+  real_T Y;
+  real_T Theta;
+} SL_Bus_DestinationControl_geometry_msgs_Pose2D;
+
+#endif
+
+#ifndef struct_tag_vxHWSOYrO9xtYchIOe7EKG
+#define struct_tag_vxHWSOYrO9xtYchIOe7EKG
+
+struct tag_vxHWSOYrO9xtYchIOe7EKG
+{
+  int32_T isInitialized;
+};
+
+#endif                                 //struct_tag_vxHWSOYrO9xtYchIOe7EKG
+
+#ifndef typedef_robotics_slcore_internal_bloc_T
+#define typedef_robotics_slcore_internal_bloc_T
+
+typedef struct tag_vxHWSOYrO9xtYchIOe7EKG robotics_slcore_internal_bloc_T;
+
+#endif                                 //typedef_robotics_slcore_internal_bloc_T
+
 #ifndef struct_tag_rkSooZHJZnr3Dpfu1LNqfH
 #define struct_tag_rkSooZHJZnr3Dpfu1LNqfH
 
@@ -230,10 +269,10 @@ typedef struct tag_PMfBDzoakfdM9QAdfx2o6D cell_wrap_DestinationControl_T;
 
 #endif                                 //typedef_cell_wrap_DestinationControl_T
 
-#ifndef struct_tag_wijVd1pZoObdN5hSCcVtcH
-#define struct_tag_wijVd1pZoObdN5hSCcVtcH
+#ifndef struct_tag_8vhy7GD0X9BqGBwplXl5nC
+#define struct_tag_8vhy7GD0X9BqGBwplXl5nC
 
-struct tag_wijVd1pZoObdN5hSCcVtcH
+struct tag_8vhy7GD0X9BqGBwplXl5nC
 {
   int32_T isInitialized;
   cell_wrap_DestinationControl_T inputVarSize[2];
@@ -244,15 +283,15 @@ struct tag_wijVd1pZoObdN5hSCcVtcH
   real_T ProjectionLineIndex;
   real_T LookaheadPoint[2];
   real_T LastPose[3];
-  real_T WaypointsInternal[6];
+  real_T WaypointsInternal[4];
 };
 
-#endif                                 //struct_tag_wijVd1pZoObdN5hSCcVtcH
+#endif                                 //struct_tag_8vhy7GD0X9BqGBwplXl5nC
 
 #ifndef typedef_nav_slalgs_internal_PurePursu_T
 #define typedef_nav_slalgs_internal_PurePursu_T
 
-typedef struct tag_wijVd1pZoObdN5hSCcVtcH nav_slalgs_internal_PurePursu_T;
+typedef struct tag_8vhy7GD0X9BqGBwplXl5nC nav_slalgs_internal_PurePursu_T;
 
 #endif                                 //typedef_nav_slalgs_internal_PurePursu_T
 

@@ -2,7 +2,7 @@
 ## Makefile generated for Simulink model 'DestinationControl'. 
 ## 
 ## Makefile     : DestinationControl.mk
-## Generated on : Wed May 06 18:54:24 2020
+## Generated on : Wed May 13 21:28:26 2020
 ## MATLAB Coder version: 5.0 (R2020a)
 ## 
 ## Build Info:
@@ -23,11 +23,11 @@
 
 PRODUCT_NAME              = DestinationControl
 MAKEFILE                  = DestinationControl.mk
-MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2020a
-MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2020a/bin
-MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
+MATLAB_ROOT               = /media/data/matlab
+MATLAB_BIN                = /media/data/matlab/bin
+MATLAB_ARCH_BIN           = $(MATLAB_BIN)/glnxa64
 MASTER_ANCHOR_DIR         = 
-START_DIR                 = C:/Users/Pierre/Desktop/mathworks-robotics-mobile-robotics-simulation-toolbox-7066fa0/ToROS
+START_DIR                 = /home/pierre/catkin_ws/src/franklin_ctrl/model/ToROS
 SOLVER                    = 
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
@@ -51,7 +51,6 @@ CPP_STANDARD_OPTS         =
 # MACROS
 #-----------
 
-SHELL        = %SystemRoot%/system32/cmd.exe
 CCOUTPUTFLAG = --output_file=
 LDOUTPUTFLAG = --output_file=
 
@@ -112,9 +111,9 @@ OUTPUT_FLAG         = -o
 ARDEBUG             =
 STATICLIB_OUTPUT_FLAG =
 MEX_DEBUG           = -g
-RM                  = @del /F
+RM                  = @rm -f
 ECHO                = @echo
-MV                  = @move
+MV                  = @mv
 RUN                 =
 
 #----------------------------------------
@@ -478,8 +477,8 @@ info :
 
 clean : 
 	$(ECHO) "### Deleting all derived files..."
-	$(RM) $(subst /,\,$(PRODUCT))
-	$(RM) $(subst /,\,$(ALL_OBJS))
+	$(RM) $(PRODUCT)
+	$(RM) $(ALL_OBJS)
 	$(RM) *Object
 	$(ECHO) "### Deleted all derived files."
 

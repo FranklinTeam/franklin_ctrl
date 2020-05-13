@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'DestinationControl'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.10
 // Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Thu May  7 15:42:08 2020
+// C/C++ source code generated on : Wed May 13 21:28:14 2020
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -36,10 +36,46 @@ static real_T DestinationControl_norm(const real_T x[2]);
 static void DestinationC_closestPointOnLine(const real_T pt1[2], const real_T
   pt2[2], const real_T refPt[2], real_T closestPoint[2], real_T *distance);
 static void De_PurePursuitBase_stepInternal(nav_slalgs_internal_PurePursu_T *obj,
-  const real_T currentPose[3], const real_T wayptsIn[6], real_T *v, real_T *w,
+  const real_T currentPose[3], const real_T wayptsIn[4], real_T *v, real_T *w,
   real_T lookaheadPoint[2], real_T *targetDir);
 static void matlabCodegenHandle_matlabCod_f(ros_slros_internal_block_Subs_T *obj);
 static void matlabCodegenHandle_matlabCodeg(ros_slros_internal_block_Publ_T *obj);
+real_T rt_atan2d_snf(real_T u0, real_T u1)
+{
+  real_T y;
+  int32_T u0_0;
+  int32_T u1_0;
+  if (rtIsNaN(u0) || rtIsNaN(u1)) {
+    y = (rtNaN);
+  } else if (rtIsInf(u0) && rtIsInf(u1)) {
+    if (u0 > 0.0) {
+      u0_0 = 1;
+    } else {
+      u0_0 = -1;
+    }
+
+    if (u1 > 0.0) {
+      u1_0 = 1;
+    } else {
+      u1_0 = -1;
+    }
+
+    y = atan2(static_cast<real_T>(u0_0), static_cast<real_T>(u1_0));
+  } else if (u1 == 0.0) {
+    if (u0 > 0.0) {
+      y = RT_PI / 2.0;
+    } else if (u0 < 0.0) {
+      y = -(RT_PI / 2.0);
+    } else {
+      y = 0.0;
+    }
+  } else {
+    y = atan2(u0, u1);
+  }
+
+  return y;
+}
+
 static real_T DestinationControl_norm(const real_T x[2])
 {
   real_T y;
@@ -102,14 +138,14 @@ static void DestinationC_closestPointOnLine(const real_T pt1[2], const real_T
   } else {
     DestinationControl_B.alpha = pt2[0] - pt1[0];
     DestinationControl_B.v12 = (pt2[0] - refPt[0]) * DestinationControl_B.alpha;
-    DestinationControl_B.v12_k = DestinationControl_B.alpha *
+    DestinationControl_B.v12_c = DestinationControl_B.alpha *
       DestinationControl_B.alpha;
     DestinationControl_B.alpha = pt2[1] - pt1[1];
     DestinationControl_B.v12 += (pt2[1] - refPt[1]) * DestinationControl_B.alpha;
-    DestinationControl_B.v12_k += DestinationControl_B.alpha *
+    DestinationControl_B.v12_c += DestinationControl_B.alpha *
       DestinationControl_B.alpha;
     DestinationControl_B.alpha = DestinationControl_B.v12 /
-      DestinationControl_B.v12_k;
+      DestinationControl_B.v12_c;
     p = (DestinationControl_B.alpha > 1.0);
     p_0 = (DestinationControl_B.alpha < 0.0);
     if (p) {
@@ -138,62 +174,26 @@ static void DestinationC_closestPointOnLine(const real_T pt1[2], const real_T
   }
 }
 
-real_T rt_atan2d_snf(real_T u0, real_T u1)
-{
-  real_T y;
-  int32_T u0_0;
-  int32_T u1_0;
-  if (rtIsNaN(u0) || rtIsNaN(u1)) {
-    y = (rtNaN);
-  } else if (rtIsInf(u0) && rtIsInf(u1)) {
-    if (u0 > 0.0) {
-      u0_0 = 1;
-    } else {
-      u0_0 = -1;
-    }
-
-    if (u1 > 0.0) {
-      u1_0 = 1;
-    } else {
-      u1_0 = -1;
-    }
-
-    y = atan2(static_cast<real_T>(u0_0), static_cast<real_T>(u1_0));
-  } else if (u1 == 0.0) {
-    if (u0 > 0.0) {
-      y = RT_PI / 2.0;
-    } else if (u0 < 0.0) {
-      y = -(RT_PI / 2.0);
-    } else {
-      y = 0.0;
-    }
-  } else {
-    y = atan2(u0, u1);
-  }
-
-  return y;
-}
-
 static void De_PurePursuitBase_stepInternal(nav_slalgs_internal_PurePursu_T *obj,
-  const real_T currentPose[3], const real_T wayptsIn[6], real_T *v, real_T *w,
+  const real_T currentPose[3], const real_T wayptsIn[4], real_T *v, real_T *w,
   real_T lookaheadPoint[2], real_T *targetDir)
 {
-  boolean_T b[6];
+  boolean_T b[4];
   int32_T trueCount;
   int32_T i;
   int32_T partialTrueCount;
   boolean_T searchFlag;
+  int32_T b_i;
   int32_T i_tmp;
-  int32_T i_tmp_0;
   boolean_T exitg1;
-  for (i = 0; i < 6; i++) {
-    b[i] = !rtIsNaN(wayptsIn[i]);
-  }
-
+  b[0] = !rtIsNaN(wayptsIn[0]);
+  b[1] = !rtIsNaN(wayptsIn[1]);
+  b[2] = !rtIsNaN(wayptsIn[2]);
+  b[3] = !rtIsNaN(wayptsIn[3]);
   trueCount = 0;
   partialTrueCount = 0;
-  for (i = 0; i < 3; i++) {
-    if (b[i] && b[i + 3]) {
+  for (i = 0; i < 2; i++) {
+    if (b[i] && b[i + 2]) {
       trueCount++;
       DestinationControl_B.f_data[partialTrueCount] = i + 1;
       partialTrueCount++;
@@ -204,7 +204,7 @@ static void De_PurePursuitBase_stepInternal(nav_slalgs_internal_PurePursu_T *obj
     DestinationControl_B.waypoints_data[i] =
       wayptsIn[DestinationControl_B.f_data[i] - 1];
     DestinationControl_B.waypoints_data[i + trueCount] =
-      wayptsIn[DestinationControl_B.f_data[i] + 2];
+      wayptsIn[DestinationControl_B.f_data[i] + 1];
   }
 
   if (trueCount == 0) {
@@ -250,39 +250,37 @@ static void De_PurePursuitBase_stepInternal(nav_slalgs_internal_PurePursu_T *obj
       DestinationControl_B.dist = DestinationControl_norm
         (DestinationControl_B.lookaheadStartPt);
       DestinationControl_B.lookaheadEndPt_idx_1 = obj->ProjectionLineIndex + 1.0;
-      i = static_cast<int32_T>((1.0 - (obj->ProjectionLineIndex + 1.0)) + (
-        static_cast<real_T>(trueCount) - 1.0)) - 1;
-      partialTrueCount = 0;
+      partialTrueCount = static_cast<int32_T>((1.0 - (obj->ProjectionLineIndex +
+        1.0)) + (static_cast<real_T>(trueCount) - 1.0)) - 1;
+      b_i = 0;
       exitg1 = false;
-      while ((!exitg1) && (partialTrueCount <= i)) {
+      while ((!exitg1) && (b_i <= partialTrueCount)) {
         DestinationControl_B.overshootDist =
-          DestinationControl_B.lookaheadEndPt_idx_1 + static_cast<real_T>
-          (partialTrueCount);
+          DestinationControl_B.lookaheadEndPt_idx_1 + static_cast<real_T>(b_i);
         if ((!searchFlag) && (DestinationControl_B.dist > obj->LookaheadDistance))
         {
           exitg1 = true;
         } else {
           i_tmp = static_cast<int32_T>(DestinationControl_B.overshootDist);
-          i_tmp_0 = static_cast<int32_T>(DestinationControl_B.overshootDist +
-            1.0);
+          i = static_cast<int32_T>(DestinationControl_B.overshootDist + 1.0);
           DestinationControl_B.waypoints[0] =
             DestinationControl_B.waypoints_data[i_tmp - 1] -
-            DestinationControl_B.waypoints_data[i_tmp_0 - 1];
-          DestinationControl_B.waypoints_m[0] =
-            DestinationControl_B.waypoints_data[i_tmp - 1];
+            DestinationControl_B.waypoints_data[i - 1];
           DestinationControl_B.waypoints_c[0] =
-            DestinationControl_B.waypoints_data[i_tmp_0 - 1];
+            DestinationControl_B.waypoints_data[i_tmp - 1];
+          DestinationControl_B.waypoints_k[0] =
+            DestinationControl_B.waypoints_data[1];
           DestinationControl_B.waypoints[1] =
             DestinationControl_B.waypoints_data[(i_tmp + trueCount) - 1] -
-            DestinationControl_B.waypoints_data[(i_tmp_0 + trueCount) - 1];
-          DestinationControl_B.waypoints_m[1] =
-            DestinationControl_B.waypoints_data[(i_tmp + trueCount) - 1];
+            DestinationControl_B.waypoints_data[(i + trueCount) - 1];
           DestinationControl_B.waypoints_c[1] =
-            DestinationControl_B.waypoints_data[(i_tmp_0 + trueCount) - 1];
+            DestinationControl_B.waypoints_data[(i_tmp + trueCount) - 1];
+          DestinationControl_B.waypoints_k[1] =
+            DestinationControl_B.waypoints_data[trueCount + 1];
           DestinationControl_B.dist += DestinationControl_norm
             (DestinationControl_B.waypoints);
-          DestinationC_closestPointOnLine(DestinationControl_B.waypoints_m,
-            DestinationControl_B.waypoints_c, &currentPose[0],
+          DestinationC_closestPointOnLine(DestinationControl_B.waypoints_c,
+            DestinationControl_B.waypoints_k, &currentPose[0],
             DestinationControl_B.lookaheadStartPt,
             &DestinationControl_B.lookaheadIdx);
           if (DestinationControl_B.lookaheadIdx <
@@ -293,7 +291,7 @@ static void De_PurePursuitBase_stepInternal(nav_slalgs_internal_PurePursu_T *obj
             obj->ProjectionLineIndex = DestinationControl_B.overshootDist;
           }
 
-          partialTrueCount++;
+          b_i++;
         }
       }
 
@@ -319,21 +317,16 @@ static void De_PurePursuitBase_stepInternal(nav_slalgs_internal_PurePursu_T *obj
               - 1.0)) {
         DestinationControl_B.lookaheadIdx++;
         i = static_cast<int32_T>(DestinationControl_B.lookaheadIdx);
-        partialTrueCount = static_cast<int32_T>
-          (DestinationControl_B.lookaheadIdx + 1.0);
         DestinationControl_B.lookaheadStartPt[0] =
           DestinationControl_B.waypoints_data[i - 1];
-        DestinationControl_B.lookaheadEndPt_idx_1 =
-          DestinationControl_B.waypoints_data[partialTrueCount - 1];
         DestinationControl_B.waypoints[0] =
           DestinationControl_B.waypoints_data[i - 1] -
-          DestinationControl_B.lookaheadEndPt_idx_1;
-        DestinationControl_B.minDistance =
-          DestinationControl_B.lookaheadEndPt_idx_1;
+          DestinationControl_B.waypoints_data[1];
+        DestinationControl_B.minDistance = DestinationControl_B.waypoints_data[1];
         DestinationControl_B.lookaheadStartPt[1] =
           DestinationControl_B.waypoints_data[(i + trueCount) - 1];
         DestinationControl_B.lookaheadEndPt_idx_1 =
-          DestinationControl_B.waypoints_data[(partialTrueCount + trueCount) - 1];
+          DestinationControl_B.waypoints_data[trueCount + 1];
         DestinationControl_B.waypoints[1] = DestinationControl_B.waypoints_data
           [(i + trueCount) - 1] - DestinationControl_B.lookaheadEndPt_idx_1;
         DestinationControl_B.dist += DestinationControl_norm
@@ -461,30 +454,105 @@ static void matlabCodegenHandle_matlabCodeg(ros_slros_internal_block_Publ_T *obj
 void DestinationControl_step(void)
 {
   boolean_T p;
-  int32_T b_k;
   boolean_T b_varargout_1;
+  SL_Bus_DestinationControl_std_msgs_Bool b_varargout_2;
+  int32_T rtb_y_d;
   boolean_T exitg1;
 
   // Outputs for Atomic SubSystem: '<Root>/Subscribe'
-  // MATLABSystem: '<S3>/SourceBlock' incorporates:
-  //   Inport: '<S4>/In1'
-
+  // MATLABSystem: '<S5>/SourceBlock'
   b_varargout_1 = Sub_DestinationControl_7.getLatestMessage
     (&DestinationControl_B.b_varargout_2);
 
-  // Outputs for Enabled SubSystem: '<S3>/Enabled Subsystem' incorporates:
-  //   EnablePort: '<S4>/Enable'
+  // Outputs for Enabled SubSystem: '<Root>/Decode ROS msg' incorporates:
+  //   EnablePort: '<S2>/Enable'
+
+  // Outputs for Enabled SubSystem: '<S5>/Enabled Subsystem' incorporates:
+  //   EnablePort: '<S10>/Enable'
 
   if (b_varargout_1) {
-    DestinationControl_B.In1 = DestinationControl_B.b_varargout_2;
+    // MATLABSystem: '<S2>/Coordinate Transformation Conversion' incorporates:
+    //   SignalConversion generated from: '<S2>/Coordinate Transformation Conversion'
+
+    DestinationControl_B.posDiff_idx_1 = 1.0 / sqrt
+      (((DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.W *
+         DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.W +
+         DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.X *
+         DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.X) +
+        DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.Y *
+        DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.Y) +
+       DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.Z *
+       DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.Z);
+    DestinationControl_B.b_z1_idx_0 =
+      DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.W *
+      DestinationControl_B.posDiff_idx_1;
+    DestinationControl_B.b_z1_idx_1 =
+      DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.X *
+      DestinationControl_B.posDiff_idx_1;
+    DestinationControl_B.posDiff_idx_0 =
+      DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.Y *
+      DestinationControl_B.posDiff_idx_1;
+    DestinationControl_B.posDiff_idx_1 *=
+      DestinationControl_B.b_varargout_2.Pose.Pose.Orientation.Z;
+
+    // DataTypeConversion: '<S2>/Data Type Conversion2' incorporates:
+    //   MATLABSystem: '<S2>/Coordinate Transformation Conversion'
+
+    DestinationControl_B.DataTypeConversion2 = rt_atan2d_snf
+      ((DestinationControl_B.b_z1_idx_1 * DestinationControl_B.posDiff_idx_0 -
+        DestinationControl_B.posDiff_idx_1 * DestinationControl_B.b_z1_idx_0) *
+       -2.0, ((DestinationControl_B.b_z1_idx_0 * DestinationControl_B.b_z1_idx_0
+               + DestinationControl_B.b_z1_idx_1 *
+               DestinationControl_B.b_z1_idx_1) -
+              DestinationControl_B.posDiff_idx_0 *
+              DestinationControl_B.posDiff_idx_0) -
+       DestinationControl_B.posDiff_idx_1 * DestinationControl_B.posDiff_idx_1);
+
+    // DataTypeConversion: '<S2>/Data Type Conversion'
+    DestinationControl_B.DataTypeConversion =
+      DestinationControl_B.b_varargout_2.Pose.Pose.Position.X;
+
+    // DataTypeConversion: '<S2>/Data Type Conversion1'
+    DestinationControl_B.DataTypeConversion1 =
+      DestinationControl_B.b_varargout_2.Pose.Pose.Position.Y;
   }
 
-  // End of MATLABSystem: '<S3>/SourceBlock'
-  // End of Outputs for SubSystem: '<S3>/Enabled Subsystem'
+  // End of MATLABSystem: '<S5>/SourceBlock'
+  // End of Outputs for SubSystem: '<S5>/Enabled Subsystem'
+  // End of Outputs for SubSystem: '<Root>/Decode ROS msg'
   // End of Outputs for SubSystem: '<Root>/Subscribe'
 
+  // Outputs for Atomic SubSystem: '<Root>/Subscribe3'
+  // MATLABSystem: '<S7>/SourceBlock' incorporates:
+  //   Inport: '<S12>/In1'
+
+  b_varargout_1 = Sub_DestinationControl_61.getLatestMessage
+    (&DestinationControl_B.b_varargout_2_m);
+
+  // Outputs for Enabled SubSystem: '<Root>/Subsystem' incorporates:
+  //   EnablePort: '<S8>/Enable'
+
+  // Outputs for Enabled SubSystem: '<S7>/Enabled Subsystem' incorporates:
+  //   EnablePort: '<S12>/Enable'
+
+  if (b_varargout_1) {
+    DestinationControl_B.In1_o = DestinationControl_B.b_varargout_2_m;
+
+    // MATLAB Function: '<S13>/MATLAB Function' incorporates:
+    //   Inport: '<S12>/In1'
+
+    DestinationControl_B.u[0] = DestinationControl_B.DataTypeConversion;
+    DestinationControl_B.u[2] = DestinationControl_B.DataTypeConversion1;
+    DestinationControl_B.u[1] = DestinationControl_B.In1_o.X;
+    DestinationControl_B.u[3] = DestinationControl_B.In1_o.Y;
+  }
+
+  // End of MATLABSystem: '<S7>/SourceBlock'
+  // End of Outputs for SubSystem: '<S7>/Enabled Subsystem'
+  // End of Outputs for SubSystem: '<Root>/Subsystem'
+  // End of Outputs for SubSystem: '<Root>/Subscribe3'
+
   // MATLABSystem: '<Root>/Pure Pursuit' incorporates:
-  //   Constant: '<Root>/Waypoints'
   //   SignalConversion generated from: '<Root>/Pure Pursuit'
 
   if (DestinationControl_DW.obj.DesiredLinearVelocity !=
@@ -507,14 +575,14 @@ void DestinationControl_step(void)
 
   b_varargout_1 = false;
   p = true;
-  b_k = 0;
+  rtb_y_d = 0;
   exitg1 = false;
-  while ((!exitg1) && (b_k < 6)) {
-    if ((DestinationControl_DW.obj.WaypointsInternal[b_k] ==
-         DestinationControl_P.Waypoints_Value[b_k]) || (rtIsNaN
-         (DestinationControl_DW.obj.WaypointsInternal[b_k]) && rtIsNaN
-         (DestinationControl_P.Waypoints_Value[b_k]))) {
-      b_k++;
+  while ((!exitg1) && (rtb_y_d < 4)) {
+    if ((DestinationControl_DW.obj.WaypointsInternal[rtb_y_d] ==
+         DestinationControl_B.u[rtb_y_d]) || (rtIsNaN
+         (DestinationControl_DW.obj.WaypointsInternal[rtb_y_d]) && rtIsNaN
+         (DestinationControl_B.u[rtb_y_d]))) {
+      rtb_y_d++;
     } else {
       p = false;
       exitg1 = true;
@@ -526,32 +594,114 @@ void DestinationControl_step(void)
   }
 
   if (!b_varargout_1) {
-    for (b_k = 0; b_k < 6; b_k++) {
-      DestinationControl_DW.obj.WaypointsInternal[b_k] =
-        DestinationControl_P.Waypoints_Value[b_k];
-    }
-
+    DestinationControl_DW.obj.WaypointsInternal[0] = DestinationControl_B.u[0];
+    DestinationControl_DW.obj.WaypointsInternal[1] = DestinationControl_B.u[1];
+    DestinationControl_DW.obj.WaypointsInternal[2] = DestinationControl_B.u[2];
+    DestinationControl_DW.obj.WaypointsInternal[3] = DestinationControl_B.u[3];
     DestinationControl_DW.obj.ProjectionLineIndex = 0.0;
   }
 
-  DestinationControl_B.dv[0] = DestinationControl_B.In1.Pose.Pose.Position.X;
-  DestinationControl_B.dv[1] = DestinationControl_B.In1.Pose.Pose.Position.Y;
-  DestinationControl_B.dv[2] = DestinationControl_B.In1.Pose.Pose.Orientation.Z;
+  DestinationControl_B.dv[0] = DestinationControl_B.DataTypeConversion;
+  DestinationControl_B.dv[1] = DestinationControl_B.DataTypeConversion1;
+  DestinationControl_B.dv[2] = DestinationControl_B.DataTypeConversion2;
   De_PurePursuitBase_stepInternal(&DestinationControl_DW.obj,
-    DestinationControl_B.dv, DestinationControl_P.Waypoints_Value,
-    &DestinationControl_B.v, &DestinationControl_B.w,
-    DestinationControl_B.unusedU0, &DestinationControl_B.targetDir);
+    DestinationControl_B.dv, DestinationControl_B.u,
+    &DestinationControl_B.b_z1_idx_0, &DestinationControl_B.b_z1_idx_1,
+    DestinationControl_B.unusedU0, &DestinationControl_B.posDiff_idx_0);
+
+  // MATLAB Function: '<Root>/MATLAB Function' incorporates:
+  //   Constant: '<Root>/Constant'
+
+  DestinationControl_B.posDiff_idx_0 = DestinationControl_B.In1_o.X -
+    DestinationControl_B.DataTypeConversion;
+  DestinationControl_B.posDiff_idx_1 = DestinationControl_B.In1_o.Y -
+    DestinationControl_B.DataTypeConversion1;
+  rtb_y_d = (sqrt(DestinationControl_B.posDiff_idx_0 *
+                  DestinationControl_B.posDiff_idx_0 +
+                  DestinationControl_B.posDiff_idx_1 *
+                  DestinationControl_B.posDiff_idx_1) <=
+             DestinationControl_P.Constant_Value_g);
+
+  // Outputs for Atomic SubSystem: '<Root>/Subscribe1'
+  // MATLABSystem: '<S6>/SourceBlock' incorporates:
+  //   Inport: '<S11>/In1'
+
+  b_varargout_1 = Sub_DestinationControl_196.getLatestMessage(&b_varargout_2);
+
+  // Outputs for Enabled SubSystem: '<S6>/Enabled Subsystem' incorporates:
+  //   EnablePort: '<S11>/Enable'
+
+  if (b_varargout_1) {
+    DestinationControl_B.In1_l = b_varargout_2;
+  }
+
+  // End of MATLABSystem: '<S6>/SourceBlock'
+  // End of Outputs for SubSystem: '<S6>/Enabled Subsystem'
+  // End of Outputs for SubSystem: '<Root>/Subscribe1'
 
   // BusAssignment: '<Root>/Bus Assignment1' incorporates:
   //   Constant: '<S1>/Constant'
-  //   MATLABSystem: '<Root>/Pure Pursuit'
 
   DestinationControl_B.BusAssignment1 = DestinationControl_P.Constant_Value_d;
-  DestinationControl_B.BusAssignment1.Linear.X = DestinationControl_B.v;
-  DestinationControl_B.BusAssignment1.Angular.Z = DestinationControl_B.w;
+
+  // Switch: '<Root>/Switch2' incorporates:
+  //   MATLAB Function: '<S15>/MATLAB Function1'
+  //   Switch: '<Root>/Switch'
+
+  if (static_cast<real_T>(DestinationControl_B.In1_l.Data) >
+      DestinationControl_P.Switch2_Threshold) {
+    // BusAssignment: '<Root>/Bus Assignment1' incorporates:
+    //   Constant: '<Root>/Constant1'
+
+    DestinationControl_B.BusAssignment1.Linear.X =
+      DestinationControl_P.Constant1_Value;
+  } else if (rtb_y_d > DestinationControl_P.Switch_Threshold) {
+    // Switch: '<Root>/Switch' incorporates:
+    //   BusAssignment: '<Root>/Bus Assignment1'
+    //   Constant: '<Root>/Constant1'
+
+    DestinationControl_B.BusAssignment1.Linear.X =
+      DestinationControl_P.Constant1_Value;
+  } else {
+    // BusAssignment: '<Root>/Bus Assignment1' incorporates:
+    //   MATLABSystem: '<Root>/Pure Pursuit'
+
+    DestinationControl_B.BusAssignment1.Linear.X =
+      DestinationControl_B.b_z1_idx_0;
+  }
+
+  // End of Switch: '<Root>/Switch2'
+
+  // Switch: '<Root>/Switch3' incorporates:
+  //   MATLAB Function: '<S15>/MATLAB Function1'
+  //   Switch: '<Root>/Switch1'
+
+  if (static_cast<real_T>(DestinationControl_B.In1_l.Data) >
+      DestinationControl_P.Switch3_Threshold) {
+    // BusAssignment: '<Root>/Bus Assignment1' incorporates:
+    //   Constant: '<Root>/Constant1'
+
+    DestinationControl_B.BusAssignment1.Angular.Z =
+      DestinationControl_P.Constant1_Value;
+  } else if (rtb_y_d > DestinationControl_P.Switch1_Threshold) {
+    // Switch: '<Root>/Switch1' incorporates:
+    //   BusAssignment: '<Root>/Bus Assignment1'
+    //   Constant: '<Root>/Constant1'
+
+    DestinationControl_B.BusAssignment1.Angular.Z =
+      DestinationControl_P.Constant1_Value;
+  } else {
+    // BusAssignment: '<Root>/Bus Assignment1' incorporates:
+    //   MATLABSystem: '<Root>/Pure Pursuit'
+
+    DestinationControl_B.BusAssignment1.Angular.Z =
+      DestinationControl_B.b_z1_idx_1;
+  }
+
+  // End of Switch: '<Root>/Switch3'
 
   // Outputs for Atomic SubSystem: '<Root>/Publish'
-  // MATLABSystem: '<S2>/SinkBlock'
+  // MATLABSystem: '<S4>/SinkBlock'
   Pub_DestinationControl_5.publish(&DestinationControl_B.BusAssignment1);
 
   // End of Outputs for SubSystem: '<Root>/Publish'
@@ -567,46 +717,111 @@ void DestinationControl_initialize(void)
 
   {
     char_T tmp[6];
-    char_T tmp_0[9];
+    char_T tmp_0[13];
+    char_T tmp_1[18];
+    char_T tmp_2[9];
     int32_T i;
-    static const char_T tmp_1[5] = { '/', 'o', 'd', 'o', 'm' };
+    static const char_T tmp_3[5] = { '/', 'o', 'd', 'o', 'm' };
 
-    static const char_T tmp_2[8] = { '/', 'c', 'm', 'd', '_', 'v', 'e', 'l' };
+    static const char_T tmp_4[12] = { '/', 'd', 'e', 's', 't', 'i', 'n', 'a',
+      't', 'i', 'o', 'n' };
+
+    static const char_T tmp_5[17] = { '/', 'd', 'e', 's', 't', 'i', 'n', 'a',
+      't', 'i', 'o', 'n', '/', 's', 't', 'o', 'p' };
+
+    static const char_T tmp_6[8] = { '/', 'c', 'm', 'd', '_', 'v', 'e', 'l' };
 
     // SystemInitialize for Atomic SubSystem: '<Root>/Subscribe'
-    // SystemInitialize for Enabled SubSystem: '<S3>/Enabled Subsystem'
-    // SystemInitialize for Outport: '<S4>/Out1'
-    DestinationControl_B.In1 = DestinationControl_P.Out1_Y0;
-
-    // End of SystemInitialize for SubSystem: '<S3>/Enabled Subsystem'
-
-    // Start for MATLABSystem: '<S3>/SourceBlock'
+    // Start for MATLABSystem: '<S5>/SourceBlock'
     DestinationControl_DW.obj_n.matlabCodegenIsDeleted = false;
     DestinationControl_DW.obj_n.isInitialized = 1;
     for (i = 0; i < 5; i++) {
-      tmp[i] = tmp_1[i];
+      tmp[i] = tmp_3[i];
     }
 
     tmp[5] = '\x00';
     Sub_DestinationControl_7.createSubscriber(tmp, 1);
     DestinationControl_DW.obj_n.isSetupComplete = true;
 
-    // End of Start for MATLABSystem: '<S3>/SourceBlock'
+    // End of Start for MATLABSystem: '<S5>/SourceBlock'
     // End of SystemInitialize for SubSystem: '<Root>/Subscribe'
 
+    // SystemInitialize for Enabled SubSystem: '<Root>/Decode ROS msg'
+    // SystemInitialize for Outport: '<S2>/X'
+    DestinationControl_B.DataTypeConversion = DestinationControl_P.X_Y0;
+
+    // SystemInitialize for Outport: '<S2>/Y'
+    DestinationControl_B.DataTypeConversion1 = DestinationControl_P.Y_Y0;
+
+    // SystemInitialize for Outport: '<S2>/Theta'
+    DestinationControl_B.DataTypeConversion2 = DestinationControl_P.Theta_Y0;
+
+    // End of SystemInitialize for SubSystem: '<Root>/Decode ROS msg'
+
+    // SystemInitialize for Atomic SubSystem: '<Root>/Subscribe3'
+    // SystemInitialize for Enabled SubSystem: '<S7>/Enabled Subsystem'
+    // SystemInitialize for Outport: '<S12>/Out1'
+    DestinationControl_B.In1_o = DestinationControl_P.Out1_Y0_e;
+
+    // End of SystemInitialize for SubSystem: '<S7>/Enabled Subsystem'
+
+    // Start for MATLABSystem: '<S7>/SourceBlock'
+    DestinationControl_DW.obj_c.matlabCodegenIsDeleted = false;
+    DestinationControl_DW.obj_c.isInitialized = 1;
+    for (i = 0; i < 12; i++) {
+      tmp_0[i] = tmp_4[i];
+    }
+
+    tmp_0[12] = '\x00';
+    Sub_DestinationControl_61.createSubscriber(tmp_0, 1);
+    DestinationControl_DW.obj_c.isSetupComplete = true;
+
+    // End of Start for MATLABSystem: '<S7>/SourceBlock'
+    // End of SystemInitialize for SubSystem: '<Root>/Subscribe3'
+
+    // SystemInitialize for Enabled SubSystem: '<Root>/Subsystem'
+    // SystemInitialize for Outport: '<S8>/waypoints'
+    DestinationControl_B.u[0] = DestinationControl_P.waypoints_Y0;
+    DestinationControl_B.u[1] = DestinationControl_P.waypoints_Y0;
+    DestinationControl_B.u[2] = DestinationControl_P.waypoints_Y0;
+    DestinationControl_B.u[3] = DestinationControl_P.waypoints_Y0;
+
+    // End of SystemInitialize for SubSystem: '<Root>/Subsystem'
+
+    // SystemInitialize for Atomic SubSystem: '<Root>/Subscribe1'
+    // SystemInitialize for Enabled SubSystem: '<S6>/Enabled Subsystem'
+    // SystemInitialize for Outport: '<S11>/Out1'
+    DestinationControl_B.In1_l = DestinationControl_P.Out1_Y0_ev;
+
+    // End of SystemInitialize for SubSystem: '<S6>/Enabled Subsystem'
+
+    // Start for MATLABSystem: '<S6>/SourceBlock'
+    DestinationControl_DW.obj_h.matlabCodegenIsDeleted = false;
+    DestinationControl_DW.obj_h.isInitialized = 1;
+    for (i = 0; i < 17; i++) {
+      tmp_1[i] = tmp_5[i];
+    }
+
+    tmp_1[17] = '\x00';
+    Sub_DestinationControl_196.createSubscriber(tmp_1, 1);
+    DestinationControl_DW.obj_h.isSetupComplete = true;
+
+    // End of Start for MATLABSystem: '<S6>/SourceBlock'
+    // End of SystemInitialize for SubSystem: '<Root>/Subscribe1'
+
     // SystemInitialize for Atomic SubSystem: '<Root>/Publish'
-    // Start for MATLABSystem: '<S2>/SinkBlock'
+    // Start for MATLABSystem: '<S4>/SinkBlock'
     DestinationControl_DW.obj_d.matlabCodegenIsDeleted = false;
     DestinationControl_DW.obj_d.isInitialized = 1;
     for (i = 0; i < 8; i++) {
-      tmp_0[i] = tmp_2[i];
+      tmp_2[i] = tmp_6[i];
     }
 
-    tmp_0[8] = '\x00';
-    Pub_DestinationControl_5.createPublisher(tmp_0, 1);
+    tmp_2[8] = '\x00';
+    Pub_DestinationControl_5.createPublisher(tmp_2, 1);
     DestinationControl_DW.obj_d.isSetupComplete = true;
 
-    // End of Start for MATLABSystem: '<S2>/SinkBlock'
+    // End of Start for MATLABSystem: '<S4>/SinkBlock'
     // End of SystemInitialize for SubSystem: '<Root>/Publish'
 
     // Start for MATLABSystem: '<Root>/Pure Pursuit'
@@ -617,18 +832,16 @@ void DestinationControl_initialize(void)
     DestinationControl_DW.obj.LookaheadDistance =
       DestinationControl_P.PurePursuit_LookaheadDistance;
     DestinationControl_DW.obj.isInitialized = 1;
-    for (i = 0; i < 6; i++) {
-      DestinationControl_DW.obj.WaypointsInternal[i] = (rtNaN);
-    }
-
+    DestinationControl_DW.obj.WaypointsInternal[0] = (rtNaN);
+    DestinationControl_DW.obj.WaypointsInternal[1] = (rtNaN);
+    DestinationControl_DW.obj.WaypointsInternal[2] = (rtNaN);
+    DestinationControl_DW.obj.WaypointsInternal[3] = (rtNaN);
     DestinationControl_DW.obj.LookaheadPoint[0] = 0.0;
     DestinationControl_DW.obj.LookaheadPoint[1] = 0.0;
     DestinationControl_DW.obj.LastPose[0] = 0.0;
     DestinationControl_DW.obj.LastPose[1] = 0.0;
     DestinationControl_DW.obj.LastPose[2] = 0.0;
     DestinationControl_DW.obj.ProjectionLineIndex = 0.0;
-
-    // End of Start for MATLABSystem: '<Root>/Pure Pursuit'
 
     // InitializeConditions for MATLABSystem: '<Root>/Pure Pursuit'
     DestinationControl_DW.obj.LookaheadPoint[0] *= 0.0;
@@ -646,13 +859,25 @@ void DestinationControl_initialize(void)
 void DestinationControl_terminate(void)
 {
   // Terminate for Atomic SubSystem: '<Root>/Subscribe'
-  // Terminate for MATLABSystem: '<S3>/SourceBlock'
+  // Terminate for MATLABSystem: '<S5>/SourceBlock'
   matlabCodegenHandle_matlabCod_f(&DestinationControl_DW.obj_n);
 
   // End of Terminate for SubSystem: '<Root>/Subscribe'
 
+  // Terminate for Atomic SubSystem: '<Root>/Subscribe3'
+  // Terminate for MATLABSystem: '<S7>/SourceBlock'
+  matlabCodegenHandle_matlabCod_f(&DestinationControl_DW.obj_c);
+
+  // End of Terminate for SubSystem: '<Root>/Subscribe3'
+
+  // Terminate for Atomic SubSystem: '<Root>/Subscribe1'
+  // Terminate for MATLABSystem: '<S6>/SourceBlock'
+  matlabCodegenHandle_matlabCod_f(&DestinationControl_DW.obj_h);
+
+  // End of Terminate for SubSystem: '<Root>/Subscribe1'
+
   // Terminate for Atomic SubSystem: '<Root>/Publish'
-  // Terminate for MATLABSystem: '<S2>/SinkBlock'
+  // Terminate for MATLABSystem: '<S4>/SinkBlock'
   matlabCodegenHandle_matlabCodeg(&DestinationControl_DW.obj_d);
 
   // End of Terminate for SubSystem: '<Root>/Publish'

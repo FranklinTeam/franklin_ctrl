@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'DestinationControl'.
 //
-// Model version                  : 1.4
+// Model version                  : 1.10
 // Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Thu May  7 15:42:08 2020
+// C/C++ source code generated on : Wed May 13 21:28:14 2020
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Generic->Unspecified (assume 32-bit Generic)
@@ -22,7 +22,7 @@
 // Block parameters (default storage)
 P_DestinationControl_T DestinationControl_P = {
   // Computed Parameter: Out1_Y0
-  //  Referenced by: '<S4>/Out1'
+  //  Referenced by: '<S10>/Out1'
 
   {
     {
@@ -112,7 +112,7 @@ P_DestinationControl_T DestinationControl_P = {
   },
 
   // Computed Parameter: Constant_Value
-  //  Referenced by: '<S3>/Constant'
+  //  Referenced by: '<S5>/Constant'
 
   {
     {
@@ -218,6 +218,48 @@ P_DestinationControl_T DestinationControl_P = {
     }                                  // Angular
   },
 
+  // Computed Parameter: Out1_Y0_e
+  //  Referenced by: '<S12>/Out1'
+
+  {
+    0.0,                               // X
+    0.0,                               // Y
+    0.0                                // Theta
+  },
+
+  // Computed Parameter: Constant_Value_c
+  //  Referenced by: '<S7>/Constant'
+
+  {
+    0.0,                               // X
+    0.0,                               // Y
+    0.0                                // Theta
+  },
+
+  // Computed Parameter: Out1_Y0_ev
+  //  Referenced by: '<S11>/Out1'
+
+  {
+    false                              // Data
+  },
+
+  // Computed Parameter: Constant_Value_i
+  //  Referenced by: '<S6>/Constant'
+
+  {
+    false                              // Data
+  },
+
+  // Expression: 0
+  //  Referenced by: '<Root>/Switch1'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<Root>/Switch'
+
+  0.0,
+
   // Expression: 0.1
   //  Referenced by: '<Root>/Pure Pursuit'
 
@@ -233,10 +275,45 @@ P_DestinationControl_T DestinationControl_P = {
 
   1.0,
 
-  // Expression: [0,0; 1,1; 0,0]
-  //  Referenced by: '<Root>/Waypoints'
+  // Computed Parameter: X_Y0
+  //  Referenced by: '<S2>/X'
 
-  { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0 }
+  0.0,
+
+  // Computed Parameter: Y_Y0
+  //  Referenced by: '<S2>/Y'
+
+  0.0,
+
+  // Computed Parameter: Theta_Y0
+  //  Referenced by: '<S2>/Theta'
+
+  0.0,
+
+  // Computed Parameter: waypoints_Y0
+  //  Referenced by: '<S8>/waypoints'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<Root>/Constant1'
+
+  0.0,
+
+  // Expression: 0.1
+  //  Referenced by: '<Root>/Constant'
+
+  0.1,
+
+  // Expression: 0
+  //  Referenced by: '<Root>/Switch2'
+
+  0.0,
+
+  // Expression: 0
+  //  Referenced by: '<Root>/Switch3'
+
+  0.0
 };
 
 //
