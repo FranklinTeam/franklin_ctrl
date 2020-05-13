@@ -1,1 +1,5 @@
-
+/doc/
+/examples/
+/ToROS/DestinationControl_ert_rtw/
+/slprj/
+*.slxc
