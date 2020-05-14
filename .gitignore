@@ -1,5 +1,9 @@
-/doc/
-/examples/
-/ToROS/DestinationControl_ert_rtw/
-/slprj/
+model/doc/
+model/examples/
+model/ToROS/DestinationControl_ert_rtw/
+model/ToROS/slprj/
 *.slxc
+*.slx.autosave
+model/ToROS/MapControl_ert_rtw/
+model/src/
+model/startMobileRoboticsSimulationToolbox.m
