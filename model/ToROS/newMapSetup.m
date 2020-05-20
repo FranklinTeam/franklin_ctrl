@@ -17,5 +17,12 @@ prm.Map = mapInflated;
 prm.NumNodes = 50;
 prm.ConnectionDistance = 5;
 
+
+show(mapi)
 show(mapInflated)
+show(prm)
+
 save("map.mat")
+
+%Find a path (path being probabilistic)
+waypoints = findpath(prm, [0,0], [1,1])
