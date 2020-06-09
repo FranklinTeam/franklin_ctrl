@@ -2,7 +2,7 @@
   <!-- Arguments -->
   <arg name="model" default="burger" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="move_forward_only" default="false"/>
-  <arg name="map_file" default="$(find franklin)/maps/map.yaml"/>
+  <arg name="map_file" default="$(find franklin)/maps/simulation_maquette.yaml"/>
   <arg name="open_rviz" default="true"/>
 
   <arg name="tb1"  default="leonardo"/>
