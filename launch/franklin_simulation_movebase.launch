@@ -2,161 +2,100 @@
   <!-- Arguments -->
   <arg name="model" default="burger" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="move_forward_only" default="false"/>
-  <arg name="map_file" default="$(find franklin)/maps/simulation_maquette.yaml"/>
-  <arg name="open_rviz" default="true"/>
   <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
 
-  <arg name="map_file_tb1" default="$(find franklin)/maps/leonardo_map.yaml"/>
+  <arg name="map_file_tbX" default="$(find franklin)/maps/leonardo_map.yaml"/>
 
-  <arg name="tb1"  default="leonardo"/>
-  <arg name="tb2" default="raphael"/>
-  <arg name="tb3"  default="donatello"/>
-  <arg name="tb4"  default="michelangelo"/>
+  <arg name="tbX"  default="leonardo"/>
 
-  <arg name="tb1_x_pos" default="0.0"/>
-  <arg name="tb1_y_pos" default="0.0"/>
-  <arg name="tb1_z_pos" default="0.0"/>
-  <arg name="tb1_t_pos" default="0.0"/>
-
-  <arg name="tb2_x_pos" default="1.0"/>
-  <arg name="tb2_y_pos" default="0.0"/>
-  <arg name="tb2_z_pos" default="0.0"/>
-  <arg name="tb2_t_pos" default="0.75"/>
-
-  <arg name="tb3_x_pos" default="2.0"/>
-  <arg name="tb3_y_pos" default="0.0"/>
-  <arg name="tb3_z_pos" default="0.0"/>
-  <arg name="tb3_t_pos" default="1.25"/>
-
-  <arg name="tb4_x_pos" default="3.0"/>
-  <arg name="tb4_y_pos" default="0.0"/>
-  <arg name="tb4_z_pos" default="0.0"/>
-  <arg name="tb4_t_pos" default="2.0"/>
-
-
- <!-- rviz CHANGER POUR UN FICHIER CUSTOM-->
-  <group if="$(arg open_rviz)"> 
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find franklin)/rviz/multirobot.rviz"/>
-  </group>
-
- <!-- Simulation -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find franklin)/worlds/simulation_maquette.world"/>
-    <arg name="paused" value="false"/>
-    <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/>
-    <arg name="headless" value="false"/>
-    <arg name="debug" value="false"/>
-  </include>
-
-<!-- Map server -->
-   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
- <param name="frame_id" value="/map" />
-</node>
-
-
-  <!-- GUI -->
+  <arg name="tbX_x_pos" default="0.0"/>
+  <arg name="tbX_y_pos" default="0.0"/>
+  <arg name="tbX_z_pos" default="0.0"/>
+  <arg name="tbX_t_pos" default="0.0"/>
 
 <!-- Turtlebot3 -->
-<group ns = "$(arg tb1)">
-     
+  <group ns = "$(arg tbX)">
 
-<param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
       <param name="publish_frequency" type="double" value="50.0" />
-      <param name="tf_prefix" value="$(arg tb1)" />
+      <param name="tf_prefix" value="$(arg tbX)" />
     </node>
-    
-    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model $(arg tb1) -x $(arg tb1_x_pos) -y $(arg tb1_y_pos) -z $(arg tb1_z_pos) -Y $(arg tb1_t_pos) -param robot_description" />
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model $(arg tbX) -x $(arg tbX_x_pos) -y $(arg tbX_y_pos) -z $(arg tbX_z_pos) -Y $(arg tbX_t_pos) -param robot_description" />
 
     <!-- Map server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file_tb1)">
- <param name="frame_id" value="map" />
-</node>
+    <!--
+    <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file_tbX)">
+      <param name="frame_id" value="map" />
+    </node>
+    -->
 
-  <!-- AMCL -->
-  <node pkg="amcl" type="amcl" name="amcl">
+    <!-- AMCL -->
+    <node pkg="amcl" type="amcl" name="amcl">
+      <param name="min_particles"             value="500"/>
+      <param name="max_particles"             value="3000"/>
+      <param name="kld_err"                   value="0.02"/>
+      <param name="update_min_d"              value="0.20"/>
+      <param name="update_min_a"              value="0.20"/>
+      <param name="resample_interval"         value="1"/>
+      <param name="transform_tolerance"       value="0.5"/>
+      <param name="recovery_alpha_slow"       value="0.00"/>
+      <param name="recovery_alpha_fast"       value="0.00"/>
+      <param name="initial_pose_x"            value="$(arg tbX_x_pos)"/>
+      <param name="initial_pose_y"            value="$(arg tbX_y_pos)"/>
+      <param name="initial_pose_a"            value="$(arg tbX_t_pos)"/>
+      <param name="gui_publish_rate"          value="50.0"/>
+      <remap from="scan"                      to="$(arg tbX)/scan"/>
+      <param name="laser_max_range"           value="3.5"/>
+      <param name="laser_max_beams"           value="180"/>
+      <param name="laser_z_hit"               value="0.5"/>
+      <param name="laser_z_short"             value="0.05"/>
+      <param name="laser_z_max"               value="0.05"/>
+      <param name="laser_z_rand"              value="0.5"/>
+      <param name="laser_sigma_hit"           value="0.2"/>
+      <param name="laser_lambda_short"        value="0.1"/>
+      <param name="laser_likelihood_max_dist" value="2.0"/>
+      <param name="laser_model_type"          value="likelihood_field"/>
+      <param name="odom_model_type"           value="diff"/>
+      <param name="odom_alpha1"               value="0.1"/>
+      <param name="odom_alpha2"               value="0.1"/>
+      <param name="odom_alpha3"               value="0.1"/>
+      <param name="odom_alpha4"               value="0.1"/>
+      <param name="odom_frame_id"             value="$(arg tbX)/odom"/>
+      <param name="base_frame_id"             value="$(arg tbX)/base_footprint"/>
+    </node>
 
-    <param name="min_particles"             value="500"/>
-    <param name="max_particles"             value="3000"/>
-    <param name="kld_err"                   value="0.02"/>
-    <param name="update_min_d"              value="0.20"/>
-    <param name="update_min_a"              value="0.20"/>
-    <param name="resample_interval"         value="1"/>
-    <param name="transform_tolerance"       value="0.5"/>
-    <param name="recovery_alpha_slow"       value="0.00"/>
-    <param name="recovery_alpha_fast"       value="0.00"/>
-    <param name="initial_pose_x"            value="$(arg tb1_x_pos)"/>
-    <param name="initial_pose_y"            value="$(arg tb1_y_pos)"/>
-    <param name="initial_pose_a"            value="$(arg tb1_t_pos)"/>
-    <param name="gui_publish_rate"          value="50.0"/>
+    <!-- move_base -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+      <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+      <rosparam file="$(find franklin)/param/$(arg tbX)/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find franklin)/param/$(arg tbX)/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find franklin)/param/$(arg tbX)/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find turtlebot3_navigation)/param/move_base_params.yaml" command="load" />
+      <rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_$(arg model).yaml" command="load" />
+      <remap from="cmd_vel" to="/$(arg tbX)/cmd_vel"/>
+      <remap from="odom" to="/$(arg tbX)/odom"/>
+      <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
+    </node>
 
-    <remap from="scan"                      to="$(arg tb1)/scan"/>
-    <param name="laser_max_range"           value="3.5"/>
-    <param name="laser_max_beams"           value="180"/>
-    <param name="laser_z_hit"               value="0.5"/>
-    <param name="laser_z_short"             value="0.05"/>
-    <param name="laser_z_max"               value="0.05"/>
-    <param name="laser_z_rand"              value="0.5"/>
-    <param name="laser_sigma_hit"           value="0.2"/>
-    <param name="laser_lambda_short"        value="0.1"/>
-    <param name="laser_likelihood_max_dist" value="2.0"/>
-    <param name="laser_model_type"          value="likelihood_field"/>
-
-    <param name="odom_model_type"           value="diff"/>
-    <param name="odom_alpha1"               value="0.1"/>
-    <param name="odom_alpha2"               value="0.1"/>
-    <param name="odom_alpha3"               value="0.1"/>
-    <param name="odom_alpha4"               value="0.1"/>
-    <param name="odom_frame_id"             value="$(arg tb1)/odom"/>
-    <param name="base_frame_id"             value="$(arg tb1)/base_footprint"/>
-
-  </node>
-
-  <!-- move_base -->
-<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-    <rosparam file="$(find franklin)/param/$(arg tb1)/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find franklin)/param/$(arg tb1)/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find franklin)/param/$(arg tb1)/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find turtlebot3_navigation)/param/move_base_params.yaml" command="load" />
-    <rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_$(arg model).yaml" command="load" />
-    <remap from="cmd_vel" to="/$(arg tb1)/cmd_vel"/>
-    <remap from="odom" to="/$(arg tb1)/odom"/>
-    <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
-  </node>
-
-<include file="$(find turtlebot3_slam)/launch/turtlebot3_gmapping.launch">
-    <arg name="model" value="$(arg model)"/>
-    <arg name="configuration_basename" value="$(arg configuration_basename)"/>
-    <arg name="set_odom_frame" value="$(arg tb1)/odom"/>
-    <arg name="set_map_frame" value="$(arg tb1)/map"/>
-    <arg name="set_base_frame" value="$(arg tb1)/base_footprint"/>
-  </include>
+    <!-- slam -->
+    <include file="$(find turtlebot3_slam)/launch/turtlebot3_gmapping.launch">
+      <arg name="model" value="$(arg model)"/>
+      <arg name="configuration_basename" value="$(arg configuration_basename)"/>
+      <arg name="set_odom_frame" value="$(arg tbX)/odom"/>
+      <arg name="set_map_frame" value="$(arg tbX)/map"/>
+      <arg name="set_base_frame" value="$(arg tbX)/base_footprint"/>
+    </include>
 
   </group>
-<group ns="$(arg tb1)/map_merge">
-    <param name="init_pose_x"   value="$(arg tb1_x_pos)"/>
-    <param name="init_pose_y"   value="$(arg tb1_y_pos)"/>
-    <param name="init_pose_z"   value="$(arg tb1_z_pos)"/>
-    <param name="init_pose_yaw" value="$(arg tb1_t_pos)"  />
+  <group ns="$(arg tbX)/map_merge">
+    <param name="init_pose_x"   value="$(arg tbX_x_pos)"/>
+    <param name="init_pose_y"   value="$(arg tbX_y_pos)"/>
+    <param name="init_pose_z"   value="$(arg tbX_z_pos)"/>
+    <param name="init_pose_yaw" value="$(arg tbX_t_pos)"  />
   </group>
-
-<node pkg="multirobot_map_merge" type="map_merge" respawn="false" name="map_merge" output="screen">
-    <param name="robot_map_topic" value="map"/>
-    <param name="robot_namespace" value=""/>
-    <param name="merged_map_topic" value="map"/>
-    <param name="world_frame" value="map"/>
-    <param name="known_init_poses" value="true"/>
-    <param name="merging_rate" value="0.5"/>
-    <param name="discovery_rate" value="0.05"/>
-    <param name="estimation_rate" value="0.1"/>
-    <param name="estimation_confidence" value="1.0"/>
-  </node>
-
-  <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg tb1)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg tb1)/map 100"/>
 
 </launch>
