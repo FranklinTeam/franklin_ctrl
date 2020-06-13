@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /LEO Planner Plan1/Status1
         - /LEO Global Map1/Costmap1
         - /LEO Local Map1/Polygon1
         - /LEO Local Map1/Costmap1
@@ -127,8 +126,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: LEO RobotModel
-      Robot Description: leonardo/robot_description
-      TF Prefix: leonardo
+      Robot Description: tb1/robot_description
+      TF Prefix: tb1
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -138,7 +137,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: LEO Map
-      Topic: /leonardo/map
+      Topic: /tb1/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -154,7 +153,7 @@ Visualization Manager:
       Color: 0; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 13069
@@ -167,11 +166,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0300000012
       Style: Flat Squares
-      Topic: /leonardo/scan
+      Topic: /tb1/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /raspicam_node/image
@@ -204,7 +203,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /leonardo/move_base/NavfnROS/plan
+      Topic: /tb1/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Class: rviz/Group
@@ -215,7 +214,7 @@ Visualization Manager:
           Draw Behind: true
           Enabled: true
           Name: Costmap
-          Topic: /leonardo/move_base/global_costmap/costmap
+          Topic: /tb1/move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -239,10 +238,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /leonardo/move_base/DWAPlannerROS/global_plan
+          Topic: /tb1/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: LEO Global Map
     - Class: rviz/Group
       Displays:
@@ -251,7 +250,7 @@ Visualization Manager:
           Color: 0; 0; 0
           Enabled: true
           Name: Polygon
-          Topic: /leonardo/move_base/local_costmap/footprint
+          Topic: /tb1/move_base/local_costmap/footprint
           Unreliable: false
           Value: true
         - Alpha: 0.699999988
@@ -260,7 +259,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Costmap
-          Topic: /leonardo/move_base/local_costmap/costmap
+          Topic: /tb1/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -284,10 +283,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /leonardo/move_base/DWAPlannerROS/local_plan
+          Topic: /tb1/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: LEO Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -295,16 +294,16 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: false
+      Enabled: true
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: LEO Amcl Particles
       Shaft Length: 0.230000004
       Shaft Radius: 0.00999999978
       Shape: Arrow (Flat)
-      Topic: /leonardo/particlecloud
+      Topic: /tb1/particlecloud
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -317,7 +316,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.0500000007
       Shape: Arrow
-      Topic: /leonardo/move_base_simple/goal
+      Topic: /tb1/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -364,8 +363,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RAPH RobotModel
-      Robot Description: raphael/robot_description
-      TF Prefix: raphael
+      Robot Description: tb2/robot_description
+      TF Prefix: tb2
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -375,7 +374,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: false
       Name: RAPH Map
-      Topic: /raphael/map
+      Topic: /tb2/map
       Unreliable: false
       Use Timestamp: false
       Value: false
@@ -391,7 +390,7 @@ Visualization Manager:
       Color: 0; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 13069
@@ -404,11 +403,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0300000012
       Style: Flat Squares
-      Topic: /raphael/scan
+      Topic: /tb2/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /raspicam_node/image
@@ -441,7 +440,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /raphael/move_base/NavfnROS/plan
+      Topic: /tb2/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Class: rviz/Group
@@ -452,7 +451,7 @@ Visualization Manager:
           Draw Behind: true
           Enabled: true
           Name: Costmap
-          Topic: /raphael/move_base/global_costmap/costmap
+          Topic: /tb2/move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -476,10 +475,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /raphael/move_base/DWAPlannerROS/global_plan
+          Topic: /tb2/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: RAPH Global Map
     - Class: rviz/Group
       Displays:
@@ -488,7 +487,7 @@ Visualization Manager:
           Color: 0; 0; 0
           Enabled: true
           Name: Polygon
-          Topic: /raphael/move_base/local_costmap/footprint
+          Topic: /tb2/move_base/local_costmap/footprint
           Unreliable: false
           Value: true
         - Alpha: 0.699999988
@@ -497,7 +496,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Costmap
-          Topic: /raphael/move_base/local_costmap/costmap
+          Topic: /tb2/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -521,10 +520,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /raphael/move_base/DWAPlannerROS/local_plan
+          Topic: /tb2/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: RAPH Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -532,16 +531,16 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: false
+      Enabled: true
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: RAPH Amcl Particles
       Shaft Length: 0.230000004
       Shaft Radius: 0.00999999978
       Shape: Arrow (Flat)
-      Topic: /raphael/particlecloud
+      Topic: /tb2/particlecloud
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -554,7 +553,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.0500000007
       Shape: Arrow
-      Topic: /raphael/move_base_simple/goal
+      Topic: /tb2/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -601,8 +600,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: DON RobotModel
-      Robot Description: donatello/robot_description
-      TF Prefix: donatello
+      Robot Description: tb3/robot_description
+      TF Prefix: tb3
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -612,7 +611,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: false
       Name: DON Map
-      Topic: /donatello/map
+      Topic: /tb3/map
       Unreliable: false
       Use Timestamp: false
       Value: false
@@ -628,7 +627,7 @@ Visualization Manager:
       Color: 0; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 13069
@@ -641,11 +640,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0300000012
       Style: Flat Squares
-      Topic: /donatello/scan
+      Topic: /tb3/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /raspicam_node/image
@@ -678,7 +677,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /donatello/move_base/NavfnROS/plan
+      Topic: /tb3/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Class: rviz/Group
@@ -689,7 +688,7 @@ Visualization Manager:
           Draw Behind: true
           Enabled: true
           Name: Costmap
-          Topic: /donatello/move_base/global_costmap/costmap
+          Topic: /tb3/move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -713,10 +712,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /donatello/move_base/DWAPlannerROS/global_plan
+          Topic: /tb3/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: DON Global Map
     - Class: rviz/Group
       Displays:
@@ -725,7 +724,7 @@ Visualization Manager:
           Color: 0; 0; 0
           Enabled: true
           Name: Polygon
-          Topic: /donatello/move_base/local_costmap/footprint
+          Topic: /tb3/move_base/local_costmap/footprint
           Unreliable: false
           Value: true
         - Alpha: 0.699999988
@@ -734,7 +733,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Costmap
-          Topic: /donatello/move_base/local_costmap/costmap
+          Topic: /tb3/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -758,10 +757,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /donatello/move_base/DWAPlannerROS/local_plan
+          Topic: /tb3/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: DON Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -769,16 +768,16 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: false
+      Enabled: true
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: DON Amcl Particles
       Shaft Length: 0.230000004
       Shaft Radius: 0.00999999978
       Shape: Arrow (Flat)
-      Topic: /donatello/particlecloud
+      Topic: /tb3/particlecloud
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -791,7 +790,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.0500000007
       Shape: Arrow
-      Topic: /donatello/move_base_simple/goal
+      Topic: /tb3/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -838,8 +837,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: MICH RobotModel
-      Robot Description: michelangelo/robot_description
-      TF Prefix: michelangelo
+      Robot Description: tb4/robot_description
+      TF Prefix: tb4
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -849,7 +848,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: false
       Name: MICH Map
-      Topic: /michelangelo/map
+      Topic: /tb4/map
       Unreliable: false
       Use Timestamp: false
       Value: false
@@ -865,7 +864,7 @@ Visualization Manager:
       Color: 0; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 13069
@@ -878,11 +877,11 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0300000012
       Style: Flat Squares
-      Topic: /michelangelo/scan
+      Topic: /tb4/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /raspicam_node/image
@@ -915,7 +914,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /michelangelo/move_base/NavfnROS/plan
+      Topic: /tb4/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Class: rviz/Group
@@ -926,7 +925,7 @@ Visualization Manager:
           Draw Behind: true
           Enabled: true
           Name: Costmap
-          Topic: /michelangelo/move_base/global_costmap/costmap
+          Topic: /tb4/move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -950,10 +949,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /michelangelo/move_base/DWAPlannerROS/global_plan
+          Topic: /tb4/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: MICH Global Map
     - Class: rviz/Group
       Displays:
@@ -962,7 +961,7 @@ Visualization Manager:
           Color: 0; 0; 0
           Enabled: true
           Name: Polygon
-          Topic: /michelangelo/move_base/local_costmap/footprint
+          Topic: /tb4/move_base/local_costmap/footprint
           Unreliable: false
           Value: true
         - Alpha: 0.699999988
@@ -971,7 +970,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Costmap
-          Topic: /michelangelo/move_base/local_costmap/costmap
+          Topic: /tb4/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -995,10 +994,10 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /michelangelo/move_base/DWAPlannerROS/local_plan
+          Topic: /tb4/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: MICH Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -1006,16 +1005,16 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: false
+      Enabled: true
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: MICH Amcl Particles
       Shaft Length: 0.230000004
       Shaft Radius: 0.00999999978
       Shape: Arrow (Flat)
-      Topic: /michelangelo/particlecloud
+      Topic: /tb4/particlecloud
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -1028,7 +1027,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.0500000007
       Shape: Arrow
-      Topic: /michelangelo/move_base_simple/goal
+      Topic: /tb4/move_base_simple/goal
       Unreliable: false
       Value: true
   Enabled: true
@@ -1044,21 +1043,21 @@ Visualization Manager:
       Hide Inactive Objects: true
     - Class: rviz/Select
     - Class: rviz/SetInitialPose
-      Topic: /leonardo/initialpose
+      Topic: /tb1/initialpose
     - Class: rviz/SetGoal
-      Topic: /leonardo/move_base_simple/goal
+      Topic: /tb1/move_base_simple/goal
     - Class: rviz/SetInitialPose
-      Topic: /raphael/initialpose
+      Topic: /tb2/initialpose
     - Class: rviz/SetGoal
-      Topic: /raphael/move_base_simple/goal
+      Topic: /tb2/move_base_simple/goal
     - Class: rviz/SetInitialPose
-      Topic: /donatello/initialpose
+      Topic: /tb3/initialpose
     - Class: rviz/SetGoal
-      Topic: /donatello/move_base_simple/goal
+      Topic: /tb3/move_base_simple/goal
     - Class: rviz/SetInitialPose
-      Topic: /michelangelo/initialpose
+      Topic: /tb4/initialpose
     - Class: rviz/SetGoal
-      Topic: /michelangelo/move_base_simple/goal
+      Topic: /tb4/move_base_simple/goal
     - Class: rviz/Measure
   Value: true
   Views:
@@ -1073,11 +1072,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 21.5745697
+      Scale: 178.075424
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.834245801
-      Y: -8.22064114
+      X: 2.47296619
+      Y: -0.753365517
     Saved: ~
 Window Geometry:
   DON Image:

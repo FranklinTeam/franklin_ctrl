@@ -6,15 +6,15 @@
   <arg name="open_rviz" default="true"/>
   <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
 
-  <arg name="map_file_tb1" default="$(find franklin)/maps/leonardo_map.yaml"/>
-  <arg name="map_file_tb2" default="$(find franklin)/maps/raphael_map.yaml"/>
-  <arg name="map_file_tb3" default="$(find franklin)/maps/donatello_map.yaml"/>
-  <arg name="map_file_tb4" default="$(find franklin)/maps/michelangelo_map.yaml"/>
+  <arg name="map_file_tb1" default="$(find franklin)/maps/tb1_map.yaml"/>
+  <arg name="map_file_tb2" default="$(find franklin)/maps/tb2_map.yaml"/>
+  <arg name="map_file_tb3" default="$(find franklin)/maps/tb3_map.yaml"/>
+  <arg name="map_file_tb4" default="$(find franklin)/maps/tb4_map.yaml"/>
 
-  <arg name="tb1"  default="leonardo"/>
-  <arg name="tb2" default="raphael"/>
-  <arg name="tb3"  default="donatello"/>
-  <arg name="tb4"  default="michelangelo"/>
+  <arg name="tb1"  default="tb1"/>
+  <arg name="tb2" default="tb2"/>
+  <arg name="tb3"  default="tb3"/>
+  <arg name="tb4"  default="tb4"/>
 
   <arg name="tb1_x_pos" default="0.0"/>
   <arg name="tb1_y_pos" default="0.0"/>
@@ -51,14 +51,14 @@
     <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find franklin)/rviz/multirobot.rviz"/>
   </group>
 
-<!-- Map server -->
+<!-- Map server 
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
     <param name="frame_id" value="/map" />
-  </node>
+  </node> -->
 
   <node pkg="multirobot_map_merge" type="map_merge" respawn="false" name="map_merge" output="screen">
     <param name="robot_map_topic" value="map"/>
-    <param name="robot_namespace" value=""/>
+    <param name="robot_namespace" value="tb"/>
     <param name="merged_map_topic" value="map"/>
     <param name="world_frame" value="map"/>
     <param name="known_init_poses" value="true"/>

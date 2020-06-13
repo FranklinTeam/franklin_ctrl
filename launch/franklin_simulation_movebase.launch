@@ -86,8 +86,8 @@
       <arg name="model" value="$(arg model)"/>
       <arg name="configuration_basename" value="$(arg configuration_basename)"/>
       <arg name="set_odom_frame" value="$(arg tbX)/odom"/>
-      <arg name="set_map_frame" value="$(arg tbX)/map"/>
-      <arg name="set_base_frame" value="$(arg tbX)/base_footprint"/>
+      <arg name="set_map_frame" value="/$(arg tbX)/map"/>
+      <arg name="set_base_frame" value="/$(arg tbX)/base_footprint"/>
     </include>
 
   </group>
