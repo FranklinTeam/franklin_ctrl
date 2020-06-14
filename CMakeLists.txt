@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   turtlebot3_msgs
   sensor_msgs
+  move_base_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -146,6 +148,10 @@ target_link_libraries(frkl_fasttraj ${catkin_LIBRARIES})
 add_executable(frkl_obstacles src/frkl_obstacles.cpp)
 add_dependencies(frkl_obstacles ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(frkl_obstacles ${catkin_LIBRARIES})
+
+add_executable(frkl_statechart src/frkl_statechart.cpp)
+add_dependencies(frkl_statechart ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(frkl_statechart ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
