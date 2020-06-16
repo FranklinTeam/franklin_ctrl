@@ -90,6 +90,9 @@
       <arg name="set_base_frame" value="/$(arg tbX)/base_footprint"/>
     </include>
 
+    <!-- custom control -->
+    
+
   </group>
   <group ns="$(arg tbX)/map_merge">
     <param name="init_pose_x"   value="$(arg tbX_x_pos)"/>

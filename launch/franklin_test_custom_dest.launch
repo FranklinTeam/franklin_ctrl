@@ -1,6 +1,0 @@
-<launch>
-
-  <node name="destinationcontrol_node" pkg="destinationcontrol" type="destinationcontrol_node" output="screen"></node>
-  <node name="franklin_gui" pkg="franklin_gui" type="franklin_gui" output="screen"></node>
-
-</launch>

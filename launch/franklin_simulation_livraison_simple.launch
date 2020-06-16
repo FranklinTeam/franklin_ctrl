@@ -1,0 +1,163 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="burger" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="move_forward_only" default="false"/>
+  <arg name="map_file" default="$(find franklin)/maps/simulation_maquette.yaml"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
+
+  <arg name="map_file_tb1" default="$(find franklin)/maps/tb1_map.yaml"/>
+  <arg name="map_file_tb2" default="$(find franklin)/maps/tb2_map.yaml"/>
+  <arg name="map_file_tb3" default="$(find franklin)/maps/tb3_map.yaml"/>
+  <arg name="map_file_tb4" default="$(find franklin)/maps/tb4_map.yaml"/>
+
+  <arg name="tb1"  default="tb1"/>
+  <arg name="tb2" default="tb2"/>
+  <arg name="tb3"  default="tb3"/>
+  <arg name="tb4"  default="tb4"/>
+
+  <arg name="tb1_x_pos" default="0.0"/>
+  <arg name="tb1_y_pos" default="0.0"/>
+  <arg name="tb1_z_pos" default="0.0"/>
+  <arg name="tb1_t_pos" default="0.0"/>
+
+  <arg name="tb2_x_pos" default="1.0"/>
+  <arg name="tb2_y_pos" default="0.0"/>
+  <arg name="tb2_z_pos" default="0.0"/>
+  <arg name="tb2_t_pos" default="0.75"/>
+
+  <arg name="tb3_x_pos" default="2.0"/>
+  <arg name="tb3_y_pos" default="0.0"/>
+  <arg name="tb3_z_pos" default="0.0"/>
+  <arg name="tb3_t_pos" default="1.25"/>
+
+  <arg name="tb4_x_pos" default="3.0"/>
+  <arg name="tb4_y_pos" default="0.0"/>
+  <arg name="tb4_z_pos" default="0.0"/>
+  <arg name="tb4_t_pos" default="2.0"/>
+
+<!-- Simulation (GAZEBO) -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+     <arg name="world_name" value="$(find franklin)/worlds/simulation_maquette_empty.world"/>
+     <arg name="paused" value="false"/>
+     <arg name="use_sim_time" value="true"/>
+     <arg name="gui" value="true"/>
+     <arg name="headless" value="false"/>
+     <arg name="debug" value="false"/>
+   </include>
+
+<!-- Visualisation (RVIZ) -->
+  <group if="$(arg open_rviz)">
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find franklin)/rviz/multirobot.rviz"/>
+  </group>
+
+<!-- Map server 
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="/map" />
+  </node> -->
+
+  <node pkg="multirobot_map_merge" type="map_merge" respawn="false" name="map_merge" output="screen">
+    <param name="robot_map_topic" value="map"/>
+    <param name="robot_namespace" value="tb"/>
+    <param name="merged_map_topic" value="map"/>
+    <param name="world_frame" value="map"/>
+    <param name="known_init_poses" value="true"/>
+    <param name="merging_rate" value="0.5"/>
+    <param name="discovery_rate" value="0.05"/>
+    <param name="estimation_rate" value="0.1"/>
+    <param name="estimation_confidence" value="1.0"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg tb1)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg tb1)/map 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg tb2)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg tb2)/map 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg tb3)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg tb3)/map 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg tb4)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg tb4)/map 100"/>
+
+<!-- GUI -->
+
+<!-- Turtlebot3 -->
+  <include file="$(find franklin)/launch/franklin_simulation_movebase.launch">
+     <arg name="map_file_tbX" value="$(arg map_file_tb1)"/>
+     <arg name="tbX" value="$(arg tb1)"/>
+     <arg name="tbX_x_pos" value="$(arg tb1_x_pos)"/>
+     <arg name="tbX_y_pos" value="$(arg tb1_y_pos)"/>
+     <arg name="tbX_z_pos" value="$(arg tb1_z_pos)"/>
+     <arg name="tbX_t_pos" value="$(arg tb1_t_pos)"/>
+  </include>
+
+  <!-- Custom Control -->
+  <group ns="$(arg tb1)">
+    <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
+	<param name="robot_name" value="tb1" />
+        <param name="voisin_name_1" value="" />
+        <param name="voisin_name_2" value="" />
+        <param name="voisin_name_3" value="tb1" />
+        <param name="foyer_x" value="-1" />
+        <param name="foyer_y" value="1" />
+    </node>
+  </group>
+
+  <include file="$(find franklin)/launch/franklin_simulation_movebase.launch">
+     <arg name="map_file_tbX" value="$(arg map_file_tb2)"/>
+     <arg name="tbX" value="$(arg tb2)"/>
+     <arg name="tbX_x_pos" value="$(arg tb2_x_pos)"/>
+     <arg name="tbX_y_pos" value="$(arg tb2_y_pos)"/>
+     <arg name="tbX_z_pos" value="$(arg tb2_z_pos)"/>
+     <arg name="tbX_t_pos" value="$(arg tb2_t_pos)"/>
+  </include>
+
+  <!-- Custom Control -->
+  <group ns="$(arg tb2)">
+    <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
+	<param name="robot_name" value="tb2" />
+        <param name="voisin_name_1" value="" />
+        <param name="voisin_name_2" value="tb3" />
+        <param name="voisin_name_3" value="" />
+        <param name="foyer_x" value="1" />
+        <param name="foyer_y" value="1" />
+    </node>
+  </group>
+
+  <include file="$(find franklin)/launch/franklin_simulation_movebase.launch">
+     <arg name="map_file_tbX" value="$(arg map_file_tb3)"/>
+     <arg name="tbX" value="$(arg tb3)"/>
+     <arg name="tbX_x_pos" value="$(arg tb3_x_pos)"/>
+     <arg name="tbX_y_pos" value="$(arg tb3_y_pos)"/>
+     <arg name="tbX_z_pos" value="$(arg tb3_z_pos)"/>
+     <arg name="tbX_t_pos" value="$(arg tb3_t_pos)"/>
+  </include>
+
+  <!-- Custom Control -->
+  <group ns="$(arg tb3)">
+    <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
+	<param name="robot_name" value="tb3" />
+        <param name="voisin_name_1" value="tb1" />
+        <param name="voisin_name_2" value="tb2" />
+        <param name="voisin_name_3" value="tb4" />
+        <param name="foyer_x" value="0" />
+        <param name="foyer_y" value="0" />
+    </node>
+  </group>
+
+  <include file="$(find franklin)/launch/franklin_simulation_movebase.launch">
+     <arg name="map_file_tbX" value="$(arg map_file_tb4)"/>
+     <arg name="tbX" value="$(arg tb4)"/>
+     <arg name="tbX_x_pos" value="$(arg tb4_x_pos)"/>
+     <arg name="tbX_y_pos" value="$(arg tb4_y_pos)"/>
+     <arg name="tbX_z_pos" value="$(arg tb4_z_pos)"/>
+     <arg name="tbX_t_pos" value="$(arg tb4_t_pos)"/>
+  </include>
+
+  <!-- Custom Control -->
+  <group ns="$(arg tb4)">
+    <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
+	<param name="robot_name" value="tb4" />
+        <param name="voisin_name_1" value="tb3" />
+        <param name="voisin_name_2" value="" />
+        <param name="voisin_name_3" value="" />
+        <param name="foyer_x" value="0" />
+        <param name="foyer_y" value="-1" />
+    </node>
+  </group>
+
+</launch>
