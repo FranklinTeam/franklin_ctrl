@@ -241,7 +241,7 @@ Visualization Manager:
           Topic: /tb1/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: LEO Global Map
     - Class: rviz/Group
       Displays:
@@ -286,7 +286,7 @@ Visualization Manager:
           Topic: /tb1/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: LEO Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -294,7 +294,7 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: LEO Amcl Particles
@@ -303,7 +303,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /tb1/particlecloud
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -478,7 +478,7 @@ Visualization Manager:
           Topic: /tb2/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: RAPH Global Map
     - Class: rviz/Group
       Displays:
@@ -523,7 +523,7 @@ Visualization Manager:
           Topic: /tb2/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: RAPH Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -531,7 +531,7 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: RAPH Amcl Particles
@@ -540,7 +540,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /tb2/particlecloud
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -715,7 +715,7 @@ Visualization Manager:
           Topic: /tb3/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: DON Global Map
     - Class: rviz/Group
       Displays:
@@ -760,7 +760,7 @@ Visualization Manager:
           Topic: /tb3/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: DON Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -768,7 +768,7 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: DON Amcl Particles
@@ -777,7 +777,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /tb3/particlecloud
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -952,7 +952,7 @@ Visualization Manager:
           Topic: /tb4/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: MICH Global Map
     - Class: rviz/Group
       Displays:
@@ -997,7 +997,7 @@ Visualization Manager:
           Topic: /tb4/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: MICH Local Map
     - Alpha: 1
       Arrow Length: 0.0500000007
@@ -1005,7 +1005,7 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 192; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: MICH Amcl Particles
@@ -1014,7 +1014,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /tb4/particlecloud
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -1072,11 +1072,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 178.075424
+      Scale: 89.9745102
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 2.47296619
-      Y: -0.753365517
+      X: 0.230758563
+      Y: -1.03526056
     Saved: ~
 Window Geometry:
   DON Image:

@@ -16,23 +16,23 @@
   <arg name="tb3"  default="tb3"/>
   <arg name="tb4"  default="tb4"/>
 
-  <arg name="tb1_x_pos" default="0.0"/>
-  <arg name="tb1_y_pos" default="0.0"/>
+  <arg name="tb1_x_pos" default="-1.0"/>
+  <arg name="tb1_y_pos" default="1.0"/>
   <arg name="tb1_z_pos" default="0.0"/>
   <arg name="tb1_t_pos" default="0.0"/>
 
   <arg name="tb2_x_pos" default="1.0"/>
-  <arg name="tb2_y_pos" default="0.0"/>
+  <arg name="tb2_y_pos" default="1.0"/>
   <arg name="tb2_z_pos" default="0.0"/>
   <arg name="tb2_t_pos" default="0.75"/>
 
-  <arg name="tb3_x_pos" default="2.0"/>
-  <arg name="tb3_y_pos" default="0.0"/>
+  <arg name="tb3_x_pos" default="-1.0"/>
+  <arg name="tb3_y_pos" default="-1.0"/>
   <arg name="tb3_z_pos" default="0.0"/>
   <arg name="tb3_t_pos" default="1.25"/>
 
-  <arg name="tb4_x_pos" default="3.0"/>
-  <arg name="tb4_y_pos" default="0.0"/>
+  <arg name="tb4_x_pos" default="1.0"/>
+  <arg name="tb4_y_pos" default="-1.0"/>
   <arg name="tb4_z_pos" default="0.0"/>
   <arg name="tb4_t_pos" default="2.0"/>
 
@@ -89,11 +89,11 @@
   <group ns="$(arg tb1)">
     <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
 	<param name="robot_name" value="tb1" />
-        <param name="voisin_name_1" value="" />
-        <param name="voisin_name_2" value="" />
-        <param name="voisin_name_3" value="tb1" />
-        <param name="foyer_x" value="-1" />
-        <param name="foyer_y" value="1" />
+        <param name="voisin_name_1" value="tb4" />
+        <param name="voisin_name_2" value="tb2" />
+        <param name="voisin_name_3" value="tb3" />
+        <param name="foyer_x" value="-2" />
+        <param name="foyer_y" value="2" />
     </node>
   </group>
 
@@ -110,11 +110,11 @@
   <group ns="$(arg tb2)">
     <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
 	<param name="robot_name" value="tb2" />
-        <param name="voisin_name_1" value="" />
-        <param name="voisin_name_2" value="tb3" />
-        <param name="voisin_name_3" value="" />
-        <param name="foyer_x" value="1" />
-        <param name="foyer_y" value="1" />
+        <param name="voisin_name_1" value="tb1" />
+        <param name="voisin_name_2" value="tb4" />
+        <param name="voisin_name_3" value="tb3" />
+        <param name="foyer_x" value="2" />
+        <param name="foyer_y" value="2" />
     </node>
   </group>
 
@@ -134,8 +134,8 @@
         <param name="voisin_name_1" value="tb1" />
         <param name="voisin_name_2" value="tb2" />
         <param name="voisin_name_3" value="tb4" />
-        <param name="foyer_x" value="0" />
-        <param name="foyer_y" value="0" />
+        <param name="foyer_x" value="-2" />
+        <param name="foyer_y" value="-2" />
     </node>
   </group>
 
@@ -152,11 +152,11 @@
   <group ns="$(arg tb4)">
     <node pkg="franklin" type="frkl_statechart" name="frkl_statechart" output="screen">
 	<param name="robot_name" value="tb4" />
-        <param name="voisin_name_1" value="tb3" />
-        <param name="voisin_name_2" value="" />
-        <param name="voisin_name_3" value="" />
-        <param name="foyer_x" value="0" />
-        <param name="foyer_y" value="-1" />
+        <param name="voisin_name_1" value="tb1" />
+        <param name="voisin_name_2" value="tb2" />
+        <param name="voisin_name_3" value="tb3" />
+        <param name="foyer_x" value="2" />
+        <param name="foyer_y" value="-2" />
     </node>
   </group>
 
