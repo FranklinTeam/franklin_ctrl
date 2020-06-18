@@ -154,6 +154,10 @@ add_executable(frkl_statechart src/frkl_statechart.cpp)
 add_dependencies(frkl_statechart ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(frkl_statechart ${catkin_LIBRARIES})
 
+add_executable(scheduler src/scheduler.cpp)
+add_dependencies(scheduler ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(scheduler ${catkin_LIBRARIES})
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
