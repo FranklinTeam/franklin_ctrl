@@ -4,11 +4,28 @@
 #include <bits/stdc++.h>
 #include <franklin/CmdRobot.h>
 #include <franklin/PackageRobot.h>
+#include <string>
 using namespace std;
+
+ros::Publisher pub_to_tb1;
+ros::Publisher pub_to_tb2;
+ros::Publisher pub_to_tb3;
+ros::Publisher pub_to_tb4;
+
+vector<int> to;
+vector<int> from;
+vector<string> voisin_name;
+
+//to_string fix
+string to_string(int i){
+  stringstream ss;
+  ss << i;
+  return ss.str();
+}
 
 // utility function to form edge between two vertices
 // source and dest
-void add_edge(vector<int> adj[], int src, int dest, std::string name, vector<int> to, vector<int> from, vector<std::string> voisin_name)
+void add_edge(vector<int> adj[], int src, int dest, std::string name)
 {
     adj[src].push_back(dest);
     adj[dest].push_back(src);
@@ -16,7 +33,6 @@ void add_edge(vector<int> adj[], int src, int dest, std::string name, vector<int
     to.push_back(dest);
     voisin_name.push_back(name);
 }
-
 // a modified version of BFS that stores predecessor
 // of each vertex in array p
 // and its distance from source in array d
@@ -92,39 +108,96 @@ vector<int> printShortestDistance(vector<int> adj[], int s, int dest, int v){
     return path;
 }
 
-std::string nodeFromName;
-std::string nodeToName;
+void command(int robot, string target, bool from_robot, bool reception){
+  franklin::CmdRobot msg;
+  msg.obj_x = 0;
+  msg.obj_y = 0;
+  msg.robot_name = target;
+  msg.from_robot = from_robot;
+  msg.reception = reception;
+
+  switch (robot) {
+    case 1:
+     pub_to_tb1.publish(msg);
+     break;
+    case 2:
+     pub_to_tb2.publish(msg);
+     break;
+    case 3:
+     pub_to_tb3.publish(msg);
+     break;
+    case 4:
+     pub_to_tb4.publish(msg);
+     break;
+  }
+}
+
+string nodeFromName;
+string nodeToName;
 bool sendAction = false;
 
 void com_tb1_Callback(const franklin::PackageRobot msg){
   if(msg.package && nodeToName.compare("tb1") == 0){
     sendAction = true;
+    ROS_INFO("Package received at tb1 !");
   }
 }
 
 void com_tb2_Callback(const franklin::PackageRobot msg){
   if(msg.package && nodeToName.compare("tb2") == 0){
     sendAction = true;
+    ROS_INFO("Package received at tb2 !");
   }
 }
 
 void com_tb3_Callback(const franklin::PackageRobot msg){
   if(msg.package && nodeToName.compare("tb3") == 0){
     sendAction = true;
+    ROS_INFO("Package received at tb3 !");
   }
 }
 
 void com_tb4_Callback(const franklin::PackageRobot msg){
   if(msg.package && nodeToName.compare("tb4") == 0){
     sendAction = true;
+    ROS_INFO("Package received at tb4 !");
   }
 }
 
 int main(int argc, char* argv[])
 {
-  ros::init(argc, argv, "scheduler");
+   ros::init(argc, argv, "scheduler");
+   ros::NodeHandle nh;
 
-  // no. of vertices
+
+     ros::Subscriber sub_from_tb1 = nh.subscribe("/COM_tb1_to_ctrl", 1, com_tb1_Callback);
+     ros::Subscriber sub_from_tb2 = nh.subscribe("/COM_tb2_to_ctrl", 1, com_tb2_Callback);
+     ros::Subscriber sub_from_tb3 = nh.subscribe("/COM_tb3_to_ctrl", 1, com_tb3_Callback);
+     ros::Subscriber sub_from_tb4 = nh.subscribe("/COM_tb4_to_ctrl", 1, com_tb4_Callback);
+     pub_to_tb1 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb1", 1);
+     pub_to_tb2 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb2", 1);
+     pub_to_tb3 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb3", 1);
+     pub_to_tb4 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb4", 1);
+
+     ROS_INFO("Setting up publishers...");
+     while(pub_to_tb1.getNumSubscribers() == 0){
+
+     }
+     ROS_INFO("tb1 ok");
+     while(pub_to_tb2.getNumSubscribers() == 0){
+
+     }
+     ROS_INFO("tb2 ok");
+     while(pub_to_tb3.getNumSubscribers() == 0){
+
+     }
+     ROS_INFO("tb3 ok");
+     while(pub_to_tb4.getNumSubscribers() == 0){
+
+     }
+     ROS_INFO("tb4 ok");
+
+    // no. of vertices
     int v = 4;
     int nodeEND = 3;
     int nodeBEGIN = 0;
@@ -134,104 +207,60 @@ int main(int argc, char* argv[])
     vector<int> adj[v];
     vector<int> path;
 
-    vector<int> to;
-    vector<int> from;
-    vector<std::string> voisin_name;
-    int counterAction = 0;
-
-
-
     // Creating graph given in the above diagram.
     // add_edge function takes adjacency list, source
     // and destination vertex as argument and forms
     // an edge between them.
-    add_edge(adj, 0, 1, "tb1", to, from, voisin_name);
-    add_edge(adj, 0, 2, "tb3", to, from, voisin_name);
-    add_edge(adj, 1, 0, "tb1", to, from, voisin_name);
-    add_edge(adj, 1, 3, "tb4", to, from, voisin_name);
-    add_edge(adj, 2, 0, "tb1", to, from, voisin_name);
-    add_edge(adj, 2, 3, "tb4", to, from, voisin_name);
-    add_edge(adj, 3, 2, "tb3", to, from, voisin_name);
-    add_edge(adj, 3, 1, "tb2", to, from, voisin_name);
+    add_edge(adj, 0, 1, "tb2");
+    add_edge(adj, 0, 2, "tb3");
+    add_edge(adj, 1, 0, "tb1");
+    add_edge(adj, 1, 3, "tb4");
+    add_edge(adj, 2, 0, "tb1");
+    add_edge(adj, 2, 3, "tb4");
+    add_edge(adj, 3, 2, "tb3");
+    add_edge(adj, 3, 1, "tb2");
 
     path = printShortestDistance(adj, nodeBEGIN, nodeEND, v);
+    /* DEBUG
     for (int i = path.size() - 1; i >= 0; i--)
         cout << path[i] << " \n";
+*/
 
-  ros::NodeHandle nh;
-  ros::Subscriber sub_from_tb1 = nh.subscribe("/COM_tb1_to_ctrl", 1, com_tb1_Callback);
-  ros::Subscriber sub_from_tb2 = nh.subscribe("/COM_tb2_to_ctrl", 1, com_tb2_Callback);
-  ros::Subscriber sub_from_tb3 = nh.subscribe("/COM_tb3_to_ctrl", 1, com_tb3_Callback);
-  ros::Subscriber sub_from_tb4 = nh.subscribe("/COM_tb4_to_ctrl", 1, com_tb4_Callback);
-  ros::Publisher pub_to_tb1 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb1", 1);
-  ros::Publisher pub_to_tb2 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb2", 1);
-  ros::Publisher pub_to_tb3 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb3", 1);
-  ros::Publisher pub_to_tb4 = nh.advertise<franklin::CmdRobot>("/COM_ctrl_to_tb4", 1);
-
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(60);
 
   sendAction = true;
-  counterAction = path.size()-1;
+  int counterAction = path.size()-1;
 
   while (ros::ok()){
      ros::spinOnce();
 
      if(sendAction){
        int nodeFrom = path[counterAction];
-       counterAction--;
-       int nodeTo = path[counterAction];
-       nodeFrom++;
-       nodeTo++;
+       int nodeTo = path[counterAction-1];
+       //if(nodeFrom == nodeBEGIN){
+        // command(nodeFrom+1, "tb1", false, true); //get package 0,0
+        // sendAction = false;
+        // ROS_INFO("Waiting for package...");
+       //}else if(nodeTo == nodeEND){
+        // command(nodeTo+1, "tb1", false, false); //get package 0,0
+       //}else{
+         //Readjust node to robot name
+         nodeFrom++;
+         nodeTo++;
 
-       for(std::size_t i = 0; i < to.size(); ++i){
+         nodeFromName = "tb"+ to_string(nodeFrom);
+         nodeToName = "tb"+ to_string(nodeTo);
 
-         if(to[i]+1 == nodeTo && from[i]+1 == nodeFrom){
-           nodeToName = voisin_name[i];
-           ROS_INFO("-- RIGHT FOR to : %d, from : %d", to[i]+1, from[i]+1);
-         }else{
-           ROS_INFO("WRONG FOR to : %d, from : %d", to[i]+1, from[i]+1);
-         }
-       }
+         //sender
+         command(nodeFrom, nodeToName, true, false);
+         //receiver
+         command(nodeTo, nodeFromName, true, true);
 
-       nodeFromName = "tb"+nodeFrom;
+         int totalaction = path.size()-1;
+         ROS_INFO("//// Action [%d] finished", totalaction-counterAction);
 
-       ROS_INFO("Yeah F : %d", nodeFrom);
-       ROS_INFO("Yeah T : %d", nodeTo);
-       std::cout << nodeToName << " lol \n";
-
-       franklin::CmdRobot msg;
-       msg.obj_x = 0;
-       msg.obj_y = 0;
-       msg.robot_name = nodeToName;
-       msg.from_robot = (nodeTo == nodeEND);
-       msg.reception = false;
-
-       if(nodeToName.compare("tb1") == 0){
-         pub_to_tb1.publish(msg);
-       }else if(nodeToName.compare("tb2") == 0){
-         pub_to_tb2.publish(msg);
-       }else if(nodeToName.compare("tb3") == 0){
-         pub_to_tb3.publish(msg);
-       }else if(nodeToName.compare("tb4") == 0){
-         pub_to_tb4.publish(msg);
-       }
-
-       msg.obj_x = 0;
-       msg.obj_y = 0;
-       msg.robot_name = nodeFromName;
-       msg.from_robot = (nodeFrom == nodeBEGIN);
-       msg.reception = true;
-
-       if(nodeFromName.compare("tb1") == 0){
-         pub_to_tb1.publish(msg);
-       }else if(nodeFromName.compare("tb2") == 0){
-         pub_to_tb2.publish(msg);
-       }else if(nodeFromName.compare("tb3") == 0){
-         pub_to_tb3.publish(msg);
-       }else if(nodeFromName.compare("tb4") == 0){
-         pub_to_tb4.publish(msg);
-       }
-
+         counterAction--;
+       //}
        sendAction = false;
      }
 
