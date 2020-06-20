@@ -43,6 +43,7 @@ double abs_y;
 std::string target_voisin;
 bool got_package = false;
 bool handshake = false;
+int package_id = 0;
 
 void com1_Callback(const std_msgs::Int16 msg){
   if(target_voisin.compare(voisin_name_1) == 0){
@@ -127,16 +128,10 @@ double calculate_meeting_pointX(std::string voisin_name){
     foyer_voisin_x = foyer_voisin_3_x;
   }else{
     foyer_voisin_x = 0;
+    ROS_ERROR("Error foyer voisin not found");
   }
-  double midX = int((foyer_voisin_x + foyer_x)/2);
-  /*
-  if(foyer_x < foyer_voisin_x){
-    midX-=0.3;
-  }else{
-    midX+=0.3;
-  }
-  */
-  return midX;
+
+  return foyer_voisin_x;
 }
 double calculate_meeting_pointY(std::string voisin_name){
   double foyer_voisin_y;
@@ -148,16 +143,10 @@ double calculate_meeting_pointY(std::string voisin_name){
     foyer_voisin_y = foyer_voisin_3_y;
   }else{
     foyer_voisin_y = 0;
+    ROS_ERROR("Error foyer voisin not found");
   }
-  double midY = int((foyer_voisin_y + foyer_y)/2);
-  /*
-  if(foyer_y < foyer_voisin_y){
-    midY-=0.3;
-  }else{
-    midY+=0.3;
-  }
-  */
-  return midY;
+
+  return foyer_voisin_y;
 }
 
 int main(int argc, char** argv){
@@ -171,12 +160,12 @@ int main(int argc, char** argv){
   nh.getParam("voisin_name_3", voisin_name_3);
   nh.getParam("foyer_x", foyer_x);
   nh.getParam("foyer_y", foyer_y);
-  nh.getParam("/" + voisin_name_1 + "/foyer_x", foyer_voisin_1_x);
-  nh.getParam("/" + voisin_name_1 + "/foyer_y", foyer_voisin_1_y);
-  nh.getParam("/" + voisin_name_2 + "/foyer_x", foyer_voisin_2_x);
-  nh.getParam("/" + voisin_name_2 + "/foyer_y", foyer_voisin_2_y);
-  nh.getParam("/" + voisin_name_3 + "/foyer_x", foyer_voisin_3_x);
-  nh.getParam("/" + voisin_name_3 + "/foyer_y", foyer_voisin_3_y);
+  nh.getParam("v1_foyer_x", foyer_voisin_1_x);
+  nh.getParam("v1_foyer_y", foyer_voisin_1_y);
+  nh.getParam("v2_foyer_x", foyer_voisin_2_x);
+  nh.getParam("v2_foyer_y", foyer_voisin_2_y);
+  nh.getParam("v3_foyer_x", foyer_voisin_3_x);
+  nh.getParam("v3_foyer_y", foyer_voisin_3_y);
 
   ros::Subscriber sub_from_voisin_1 = nh.subscribe("/COM_" + voisin_name_1 + "_to_" + robot_name, 1, com1_Callback);
   ros::Subscriber sub_from_voisin_2 = nh.subscribe("/COM_" + voisin_name_2 + "_to_" + robot_name, 1, com2_Callback);
@@ -236,6 +225,7 @@ int main(int argc, char** argv){
       }
       msg.state = ss.str();
       msg.package = got_package;
+      msg.id = package_id;
       pub_to_ctrl.publish(msg);
 
       //statechart handler
@@ -271,6 +261,7 @@ int main(int argc, char** argv){
             if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
               ROS_INFO("Delivered !");
               got_package = false;
+              package_id = 0;
               STATE = STATE_PARKING;
             }else{
               ROS_INFO("ERROR, NOT IN SPECIFIC POSITION");
@@ -278,6 +269,8 @@ int main(int argc, char** argv){
           }else{
             double sx = calculate_meeting_pointX(target_voisin);
             double sy = calculate_meeting_pointY(target_voisin);
+
+            ROS_ERROR("POS x : %lf, POS y : %lf", sx, sy);
 
             goal.target_pose.pose.position.x = sx;
             goal.target_pose.pose.position.y = sy;
@@ -315,6 +308,8 @@ int main(int argc, char** argv){
           }else{
             double sx = calculate_meeting_pointX(target_voisin);
             double sy = calculate_meeting_pointY(target_voisin);
+
+            ROS_ERROR("POS x : %lf, POS y : %lf", sx, sy);
 
             goal.target_pose.pose.position.x = sx;
             goal.target_pose.pose.position.y = sy;

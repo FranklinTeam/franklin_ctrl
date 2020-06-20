@@ -100,6 +100,12 @@
         <param name="voisin_name_3" value="tb3" />
         <param name="foyer_x" value="-2" />
         <param name="foyer_y" value="2" />
+	<param name="v1_foyer_x" value="0" />
+        <param name="v1_foyer_y" value="0" />
+        <param name="v2_foyer_x" value="0" />
+        <param name="v2_foyer_y" value="2" />
+	<param name="v3_foyer_x" value="-2" />
+        <param name="v3_foyer_y" value="0" />
     </node>
   </group>
 
@@ -121,6 +127,12 @@
         <param name="voisin_name_3" value="tb3" />
         <param name="foyer_x" value="2" />
         <param name="foyer_y" value="2" />
+	<param name="v1_foyer_x" value="0" />
+        <param name="v1_foyer_y" value="2" />
+        <param name="v2_foyer_x" value="2" />
+        <param name="v2_foyer_y" value="0" />
+	<param name="v3_foyer_x" value="0" />
+        <param name="v3_foyer_y" value="0" />
     </node>
   </group>
 
@@ -142,6 +154,12 @@
         <param name="voisin_name_3" value="tb4" />
         <param name="foyer_x" value="-2" />
         <param name="foyer_y" value="-2" />
+	<param name="v1_foyer_x" value="0" />
+        <param name="v1_foyer_y" value="-2" />
+        <param name="v2_foyer_x" value="0" />
+        <param name="v2_foyer_y" value="0" />
+	<param name="v3_foyer_x" value="0" />
+        <param name="v3_foyer_y" value="-2" />
     </node>
   </group>
 
@@ -163,6 +181,12 @@
         <param name="voisin_name_3" value="tb3" />
         <param name="foyer_x" value="2" />
         <param name="foyer_y" value="-2" />
+	<param name="v1_foyer_x" value="0" />
+        <param name="v1_foyer_y" value="0" />
+        <param name="v2_foyer_x" value="2" />
+        <param name="v2_foyer_y" value="0" />
+	<param name="v3_foyer_x" value="0" />
+        <param name="v3_foyer_y" value="-2" />
     </node>
   </group>
 
