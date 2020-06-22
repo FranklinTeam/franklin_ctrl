@@ -209,7 +209,7 @@ int main(int argc, char** argv) {
     //pubs
     cmd_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
     info_pub = n.advertise<std_msgs::Float32>("f_info_dest", 1);
-    sound_pub = n.advertise<franklin::Sound>("sound", 1);
+    sound_pub = n.advertise<turtlebot3_msgs::Sound>("sound", 1);
 
     //subs
     ros::Subscriber mark_sub = n.subscribe("markers_pos",1, markers_Callback);
