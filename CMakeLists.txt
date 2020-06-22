@@ -16,11 +16,14 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   actionlib
   message_generation
+  cv_bridge
+  image_transport
+  image_geometry
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(OpenCV REQUIRED COMPONENTS)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -123,6 +126,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -157,6 +161,14 @@ target_link_libraries(frkl_statechart ${catkin_LIBRARIES})
 add_executable(scheduler src/scheduler.cpp)
 add_dependencies(scheduler ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(scheduler ${catkin_LIBRARIES})
+
+add_executable(frkl_auto_parking src/frkl_auto_parking.cpp)
+add_dependencies(frkl_auto_parking ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(frkl_auto_parking ${catkin_LIBRARIES})
+
+add_executable(cam_relatif src/cam_relatif.cpp)
+add_dependencies(cam_relatif ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cam_relatif ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
