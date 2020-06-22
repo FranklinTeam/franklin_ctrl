@@ -4,7 +4,7 @@
   <arg name="move_forward_only" default="false"/>
   <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
 
-  <arg name="map_file_tbX" default="$(find franklin)/maps/leonardo_map.yaml"/>
+  <arg name="map_file_tbX" default="$(find franklin)/maps/empty.yaml"/>
 
   <arg name="tbX"  default="leonardo"/>
 
@@ -26,11 +26,11 @@
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model $(arg tbX) -x $(arg tbX_x_pos) -y $(arg tbX_y_pos) -z $(arg tbX_z_pos) -Y $(arg tbX_t_pos) -param robot_description" />
 
     <!-- Map server -->
-    <!--
+    
     <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file_tbX)">
       <param name="frame_id" value="map" />
     </node>
-    -->
+    
 
     <!-- AMCL -->
     <node pkg="amcl" type="amcl" name="amcl">
