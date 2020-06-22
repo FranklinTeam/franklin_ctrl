@@ -59,6 +59,7 @@ find_package(OpenCV REQUIRED COMPONENTS)
    FILES
    CmdRobot.msg
    PackageRobot.msg
+   Camera.msg
  )
 
 ## Generate services in the 'srv' folder

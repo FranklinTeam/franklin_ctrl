@@ -2,7 +2,7 @@
 #include <std_msgs/String.h>
 #include <ros/ros.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-#include <turtlebot3_msgs/Camera.h>
+#include <franklin/Camera.h>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
@@ -49,9 +49,9 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
 int main(int argc, char **argv){
 
-	ros::init(argc, argv, "frkl_cam");
+	ros::init(argc, argv, "cam_relatif");
 	ros::NodeHandle n;
-	markers_pub = n.advertise<turtlebot3_msgs::Camera>("markers_pos", 1);
+	markers_pub = n.advertise<franklin::Camera>("markers_pos", 1);
 
 	image_transport::ImageTransport it(n);
 	image_transport::Subscriber sub = it.subscribe("~/camera/link/camera/image", 1, imageCallback);
@@ -176,7 +176,7 @@ int main(int argc, char **argv){
 							tab += 300;
 
 							//Sending coordinates on a topic
-							turtlebot3_msgs::Camera marker_pos;
+							franklin::Camera marker_pos;
 							marker_pos.y=tx;
 							marker_pos.x=ty;
 							marker_pos.z=tz;
