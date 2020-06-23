@@ -23,7 +23,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(OpenCV REQUIRED COMPONENTS)
+find_package(OpenCV REQUIRED COMPONENTS core highgui imgproc)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -170,6 +170,11 @@ target_link_libraries(frkl_auto_parking ${catkin_LIBRARIES})
 add_executable(cam_relatif src/cam_relatif.cpp)
 add_dependencies(cam_relatif ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(cam_relatif ${catkin_LIBRARIES})
+
+add_executable(image_get src/image_get.cpp)
+add_dependencies(image_get ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(image_get ${catkin_LIBRARIES})
+
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

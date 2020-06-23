@@ -14,10 +14,14 @@
 #include <string>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
-
 #include <image_transport/image_transport.h>
+#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+
+namespace enc = sensor_msgs::image_encodings;
 
 cv::Mat rtvecToRtmat(cv::Vec3d rvec, cv::Vec3d tvec){
 	cv::Mat tmat(3,1,CV_64FC1,tvec);
@@ -50,11 +54,13 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 int main(int argc, char **argv){
 
 	ros::init(argc, argv, "cam_relatif");
-	ros::NodeHandle n;
+	ros::NodeHandle n("~");
+	//nh.getParam("cam_relatif"
 	markers_pub = n.advertise<franklin::Camera>("markers_pos", 1);
 
 	image_transport::ImageTransport it(n);
-	image_transport::Subscriber sub = it.subscribe("~/camera/link/camera/image", 1, imageCallback);
+	//image_transport::Subscriber sub = it.subscribe("~/camera/link/camera/image", 1, imageCallback);
+	image_transport::Subscriber sub = it.subscribe("/camera/image_raw", 1, imageCallback);
 	
 	/*Dictionary of Aruco markers*/
 	int dictionaryId = 11;
@@ -103,7 +109,7 @@ int main(int argc, char **argv){
 	ros::Rate loop_rate(60); //60FPS
 	cv::Mat image_resized;
 
-    while (1){
+    while (ros::ok()){
 		ros::spinOnce();
 		if(image.empty()==false){
 
