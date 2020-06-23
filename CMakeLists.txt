@@ -171,9 +171,6 @@ add_executable(cam_relatif src/cam_relatif.cpp)
 add_dependencies(cam_relatif ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(cam_relatif ${catkin_LIBRARIES})
 
-add_executable(image_get src/image_get.cpp)
-add_dependencies(image_get ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(image_get ${catkin_LIBRARIES})
 
 
 ## Add cmake target dependencies of the library
