@@ -32,7 +32,7 @@ double initX = 0;
 double initY = 0;
 double initZ = 0;
 
-double angleZ = 0.45;
+double angleZ = 2;
 
 int ids;
 float MarksX = 0.0;
@@ -84,9 +84,10 @@ void park_Callback(const std_msgs::Bool b){
 	//targetX = MarksX;
     	//targetY = MarksY;
 	//targetZ = MarksZ;
-	targetX = 1.0;
-    	targetY = 1.0;
-	targetZ = 0.5;
+	int n;
+	targetX = 0.2;
+    	targetY = 0.2;
+	targetZ = 3;
     //if (Id = 2){
 //	targetZ=0.35;
     	initX = realX;
@@ -117,7 +118,7 @@ void park_Callback(const std_msgs::Bool b){
 			twist.angular.z = angular_speed;
 			ROS_INFO("z = %0.2f \n, realZ");
 		
-            		if(std::abs(targetZ-realZ) <= 0.4){
+            		if(std::abs(targetZ-realZ) <= 0.2){
               			state = 1;
 	      			twist.angular.z = 0;
             		}
@@ -127,7 +128,6 @@ void park_Callback(const std_msgs::Bool b){
 			twist.angular.z = 0;
             		twist.linear.x = linear_speed * std::abs(targetX-realX);
             		twist.linear.x = std::min(twist.linear.x, BURGER_MAX_LIN_VEL);
-
             		if(std::abs(targetX-realX) <= 0.01){
               			state = 2;
 	      			twist.linear.x = 0;
@@ -136,8 +136,7 @@ void park_Callback(const std_msgs::Bool b){
 			ROS_INFO("State 2 \n");	    		
 			twist.linear.x = 0;
 	    		twist.angular.z = angular_speed * ((targetY-realY)/std::abs(targetY-realY));
-
-            		if(std::abs(angleZ+targetZ-realZ) <= 0.01){
+            		if(std::abs(angleZ+targetZ-realZ) <= 0.2){
               			state = 3;
 	      			twist.angular.z = 0;
             		}
@@ -146,7 +145,6 @@ void park_Callback(const std_msgs::Bool b){
 			twist.angular.z = 0;
             		twist.linear.x = linear_speed * std::abs(targetY-realY);
             		twist.linear.x = std::min(twist.linear.x, BURGER_MAX_LIN_VEL);
-
             		if(std::abs(targetY-realY) <= 0.01){
              			state = 4;
 	      			twist.linear.x = 0;

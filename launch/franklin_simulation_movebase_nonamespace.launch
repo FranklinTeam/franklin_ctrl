@@ -52,10 +52,6 @@
 
 	<arg name="visualize" default="false"/>
 
-   
-	    <node pkg="franklin" type="cam_relatif" name="cam_relatif" output="screen">
-	    </node>
-
 	    <node pkg="franklin" type="frkl_auto_parking" name="frkl_auto_parking" output="screen">
 	    </node>
 
