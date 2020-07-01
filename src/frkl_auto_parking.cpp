@@ -84,6 +84,7 @@ void park_Callback(const std_msgs::Bool b){
 	//targetX = MarksX;
     	//targetY = MarksY;
 	//targetZ = MarksZ;
+        find_marker = false;
 	int n;
 	targetX = 0.2;
     	targetY = 0.2;
@@ -110,13 +111,12 @@ void park_Callback(const std_msgs::Bool b){
 //Détecter s'il y a des obstacles sur la trajectoire du robot
 //Déterminer la position du parking et ce mettre dans l'axe.
 //Se rendre au parking
-			//while(find_marker==false){
-				
-			//}		
+			while(find_marker==false){
+				ROS_INFO("En attente de détecter un marqueur \n");
+			}		
 			ROS_INFO("State 0 \n");	
 			twist.linear.x= 0;		 
 			twist.angular.z = angular_speed;
-			ROS_INFO("z = %0.2f \n, realZ");
 		
             		if(std::abs(targetZ-realZ) <= 0.2){
               			state = 1;
